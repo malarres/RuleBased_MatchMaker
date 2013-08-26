@@ -25,9 +25,7 @@ Then build the RuleBasedMatchMaker:
 
 1) Download Apache Maven from http://maven.apache.org/ and install it
 
-2) In root directory run "npm install"
-
-3) In "lib" directory run "mvn clean install"
+2) In "lib" directory run "mvn clean install"
 
 ### Rule-based Matchmaker API
 
