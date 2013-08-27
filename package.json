@@ -9,9 +9,6 @@
         "universal": "git://github.com/GPII/universal.git#a03b5e4512691cad032186434bd3e8151ad23a6d",
         "when": "~1.8.1"
   },
-  "devDependencies": {
-        "jqUnit": "git://github.com/fluid-project/node-jqUnit.git#e9bf72445bd343a4f3aabe3ba96a1087d3498612"
-  },
   "licenses": [
        {
            "type": "BSD-3-Clause",
