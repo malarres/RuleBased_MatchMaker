@@ -166,7 +166,8 @@ public class OntologyManager
         // create an empty model
         model = ModelFactory.createOntologyModel();
         
-        String owlPathStr = System.getProperty("user.dir") + "/../node_modules/universal/gpii/node_modules/matchMaker/src/RB_MM/extra-resources/semantincFrameworkOfContentAndSolutions.owl";
+        //String owlPathStr = System.getProperty("user.dir") + "/../node_modules/universal/gpii/node_modules/matchMaker/src/RB_MM/extra-resources/semantincFrameworkOfContentAndSolutions.owl";
+        String owlPathStr = System.getProperty("user.dir") + "/lib/RB_MM/extra-resources/semantincFrameworkOfContentAndSolutions.owl";
         InputStream in = null;
         try {
             in = new FileInputStream(owlPathStr);

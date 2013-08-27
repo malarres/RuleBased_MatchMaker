@@ -23,15 +23,11 @@ Matchmaker.
 	
 Then build the RuleBasedMatchMaker:
 
-1) Download Apache Maven from http://maven.apache.org/ and install it
+1) Download [Apache Maven](http://maven.apache.org/) and install it
 
 2) In "lib" directory run "mvn clean install"
 
 ### Rule-based Matchmaker API
-
-The Rule-based Matchmaker currently supports the following urls:
-
-    {url_to_a_sample_matchmaker_server}/match // POST
 
 To run the rule-based matchmaker, simply type:
 
@@ -45,3 +41,19 @@ For example:
     bin/ruleBasedMatchMaker
     bin/ruleBasedMatchMaker /Users/{userName}/ruleBasedMatchMaker/configs/
     NODE_ENV=production bin/ruleBasedMatchMaker configs/
+
+The Rule-based Matchmaker currently supports the following urls:
+
+    {url_to_a_sample_matchmaker_server}/match // POST
+	
+Usage example using [curl](http://curl.haxx.se/):
+
+	curl -X POST -H "Content-Type: application/json" localhost:8080/match -d @testData\testInput.json
+
+Troubleshooting:
+
+	When executing the Rule-based MatchMaker, a new directory (/logs) is automatically created. 
+	If there are limited permissions, an exception will be thrown.
+	In this case, try to manually create the "logs" directory at the root of the hard drive.
+
+	

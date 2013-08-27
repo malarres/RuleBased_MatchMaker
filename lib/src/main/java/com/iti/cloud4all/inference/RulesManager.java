@@ -28,7 +28,8 @@ public class RulesManager
         m = ModelFactory.createDefaultModel();
         
         String currentDir = System.getProperty("user.dir");
-        uri_MatchMaker_rules = currentDir + "/../node_modules/universal/gpii/node_modules/matchMaker/src/RB_MM/extra-resources/MatchMakerRules.rules";
+        //uri_MatchMaker_rules = currentDir + "/../node_modules/universal/gpii/node_modules/matchMaker/src/RB_MM/extra-resources/MatchMakerRules.rules";
+        uri_MatchMaker_rules = currentDir + "/lib/RB_MM/extra-resources/MatchMakerRules.rules";
     }
     
     public static RulesManager getInstance() 
