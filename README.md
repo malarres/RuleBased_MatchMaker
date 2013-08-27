@@ -10,7 +10,7 @@ The Rule-based Matchmaker operates by executing [Kettle](http://wiki.fluidprojec
 
 [universal](https://github.com/GPII/universal)
 
-Installation instructions:
+Installation instructions
 -
 
 Firstly, install node and npm.
@@ -21,7 +21,7 @@ Matchmaker.
 
     npm install
 	
-Then build the RuleBasedMatchMaker:
+Then, build the RuleBasedMatchMaker:
 
 1) Download [Apache Maven](http://maven.apache.org/) and install it
 
