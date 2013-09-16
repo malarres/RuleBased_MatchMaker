@@ -177,7 +177,7 @@ public class RulesManager
         try
         {
             //OutputStream out = new FileOutputStream("D:/CLOUD4ALL/Cloud4All_MatchMaker/src/ontology/ontologies/generatedOntologyWithTestUserAndEnvironmement.owl");
-            OutputStream out = new FileOutputStream("D:/CLOUD4ALL/github/RuleBased_MatchMaker/lib/generatedOntologyWithTestUserAndEnvironmement.owl");
+            OutputStream out = new FileOutputStream("./generatedOntologyWithTestUserAndEnvironmement.owl");
             OntologyManager.getInstance().model.write(out, "RDF/XML-ABBREV"); // readable rdf/xml
             out.close();            
         }
