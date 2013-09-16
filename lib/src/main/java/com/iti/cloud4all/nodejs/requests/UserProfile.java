@@ -18,6 +18,7 @@ public class UserProfile extends RequestMessage {
     private String backgroundColor;
     private String highContrast;
     private String magnifierFullScreen;
+    private String specificPreferencesForSolutions_IDs;
     
     
     @Override
@@ -35,6 +36,8 @@ public class UserProfile extends RequestMessage {
             highContrast = "null";
         if(magnifierFullScreen == null)
             magnifierFullScreen = "null";
+        if(specificPreferencesForSolutions_IDs == null)
+            specificPreferencesForSolutions_IDs = "null";
         
         
         InstantiationManager.getInstance().USER_fontSize = Integer.parseInt(fontSize);
@@ -43,6 +46,7 @@ public class UserProfile extends RequestMessage {
         InstantiationManager.getInstance().USER_backgroundColor = backgroundColor;
         InstantiationManager.getInstance().USER_highContrast = Boolean.parseBoolean(highContrast);
         InstantiationManager.getInstance().USER_magnifierFullScreen = Boolean.parseBoolean(magnifierFullScreen);
+        InstantiationManager.getInstance().USER_SpecificPreferencesForSolutions_IDs = specificPreferencesForSolutions_IDs;
         
         ResponseMessage response = new Info("Answer from Java: User Model received!"
                 + "\nfontSize: " + fontSize
@@ -51,6 +55,7 @@ public class UserProfile extends RequestMessage {
                 + "\nbackgroundColor: " + backgroundColor
                 + "\nhighContrast: " + highContrast
                 + "\nmagnifierFullScreen: " + magnifierFullScreen
+                + "\nspecificPreferencesForSolutions_IDs: " + specificPreferencesForSolutions_IDs
                 );
         response.send();
     }

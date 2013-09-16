@@ -19,6 +19,7 @@ public class OntologyManager
     public static final int TempEnvironment_ID = -1001;
     public static final int TempHandicapSituations_ID = -1002;
     public static final int TempPossibleSolutions_ID = -1003;
+    public static final int TempSolutionsToBeLaunched_ID = -1004;
     
     public static final int DTVDevices_ID = 1;
     public static final int GamingConsoleDevices_ID = 2;
@@ -152,6 +153,7 @@ public class OntologyManager
     public static final int ScreenReaderSettings_NVDASettings_ID = 122;
     public static final int ScreenReaderSettings_OrcaSettings_ID = 123;
     public static final int ScreenReaderSettings_WinSevenBuiltInNarratorSettings_ID = 124;
+    
     
     //public Model model;
     public OntModel model;
@@ -1273,7 +1275,8 @@ public class OntologyManager
             return "TempHandicapSituations";
         else if(tmpClassID == TempPossibleSolutions_ID)
             return "TempPossibleSolutions";
-        
+        else if(tmpClassID == TempSolutionsToBeLaunched_ID)
+            return "TempSolutionsToBeLaunched";
         
         
         else if(tmpClassID == DTVDevices_ID)
@@ -1455,7 +1458,7 @@ public class OntologyManager
         else if(tmpClassID == MagnifyingSoftware_ID)
             return "MagnifyingSoftware";
         else if(tmpClassID == ScreenReader_ID)
-            return "ScreenReader";
+            return "ScreenReaderSoftware";
         else if(tmpClassID == SoftwareForAdjustingColorCombinationAndTextSize_ID)
             return "SoftwareForAdjustingColorCombinationAndTextSize";
         else if(tmpClassID == SoftwareToModifyThePointerAppearance_ID)
@@ -1619,6 +1622,19 @@ public class OntologyManager
                         tmpTempPossibleSolution.comment = getPropertyValue(subject.toString(), "TempPossibleSolutions_comment");
                         
                         result.add(tmpTempPossibleSolution);
+                    }
+                    //---------------------
+                    //TempSolutionsToBeLaunched
+                    //---------------------
+                    else if(tmpClassID == TempSolutionsToBeLaunched_ID)
+                    {
+                        if(result == null)
+                            result = new ArrayList<TempSolutionsToBeLaunched>();
+                        TempSolutionsToBeLaunched tmpTempSolutionsToBeLaunched = new TempSolutionsToBeLaunched();
+                        
+                        tmpTempSolutionsToBeLaunched.IDs = getPropertyValue(subject.toString(), "TempSolutionsToBeLaunched_IDs");
+                        
+                        result.add(tmpTempSolutionsToBeLaunched);
                     }
                     
                     //-------
@@ -1985,6 +2001,8 @@ public class OntologyManager
                         else if(tmpClassID == SmartHouse_ID)
                             tmpSolution.classID = SmartHouse_ID;
                         
+                        tmpSolution.instanceName = subject.toString();
+                        tmpSolution.id = getPropertyValue(subject.toString(), "id");
                         tmpSolution.hasSolutionName = getPropertyValue(subject.toString(), "hasSolutionName");
                         tmpSolution.hasSolutionDescription = getPropertyValue(subject.toString(), "hasSolutionDescription");
                         String tmpFreeAllowedNrOfInvocations = getPropertyValue(subject.toString(), "freeAllowedNrOfInvocations");
@@ -2408,8 +2426,10 @@ public class OntologyManager
                         tempPropertyName = "hasPlatformName";
                     else if(tmpPropertyName.equals("isSolutionVendorOf"))
                         tempPropertyName = "hasSolutionName";
+                    else if(tmpPropertyName.equals("TempSolutionsToBeLaunched_IDs"))
+                        tempPropertyName = "hasSolutionName";
                     
-                    result = result + getPropertyValue(tmpInstanceName, tempPropertyName) + ", ";
+                    result = result + getPropertyValue(tmpInstanceName, tempPropertyName);// + ", ";
                 }
             } 
             else //object is a literal
@@ -2554,5 +2574,29 @@ public class OntologyManager
         if(printDebugInfo)
             System.out.println("getSolutionsRunningOnSpecificDevice --- END");
         return result;
+    }
+    
+    public String getInstanceNameBySolutionID(String tmpID)
+    {
+        String res = "not found!";
+        
+        //Solution IDs: from 63 to 93
+        for(int tmpClassIDCounter=63; tmpClassIDCounter<=93; tmpClassIDCounter++)
+        {
+            ArrayList<Solution> allSolutionInstances = getInstances(tmpClassIDCounter);
+            if(allSolutionInstances != null)
+            {
+                for(int i=0; i<allSolutionInstances.size(); i++)
+                {
+                    Solution tmpSolution = allSolutionInstances.get(i);
+                    if(tmpSolution.id != null
+                            && tmpSolution.id.toLowerCase().equals(tmpID.toLowerCase()))
+                    {
+                        return tmpSolution.instanceName;
+                    }
+                }
+            }
+        }
+        return res;
     }
 }

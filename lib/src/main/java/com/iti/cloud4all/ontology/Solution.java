@@ -8,7 +8,9 @@ public class Solution
 {
     int classID;
 
+    String instanceName;
     String hasSolutionName;
+    String id;
     String hasSolutionDescription;
     int freeAllowedNrOfInvocations;
     double hasCost;
@@ -25,7 +27,9 @@ public class Solution
     {
         classID = -1;
 
+        instanceName = "";
         hasSolutionName = "";
+        id = "";
         hasSolutionDescription = "";
         freeAllowedNrOfInvocations = 0;
         hasCost = 0.0;
@@ -43,7 +47,9 @@ public class Solution
     {
         String result = OntologyManager.getInstance().getClassNameByID(classID);
 
+        result = result + "\n\tinstanceName: " + instanceName;
         result = result + "\n\thasSolutionName: " + hasSolutionName;
+        result = result + "\n\tid: " + id;
         result = result + "\n\thasSolutionDescription: " + hasSolutionDescription;
         result = result + "\n\tfreeAllowedNrOfInvocations: " + Integer.toString(freeAllowedNrOfInvocations);
         result = result + "\n\thasCost: " + Double.toString(hasCost);

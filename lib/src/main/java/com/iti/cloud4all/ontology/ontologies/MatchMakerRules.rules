@@ -50,3 +50,30 @@ equal(?tmpEnvironmentPlatformVersion, '6.1')
 (ns:ProblemWithMagnifierFullScreenInWindows7_PossibleSolution ns:TempPossibleSolutions_text "Solve problem with magnifier running on full screen -> Apply AERO design"^^http://www.w3.org/2001/XMLSchema#string)
 (ns:ProblemWithMagnifierFullScreenInWindows7_PossibleSolution ns:TempPossibleSolutions_comment "no comments"^^http://www.w3.org/2001/XMLSchema#string)
 ]
+
+
+[InstalledSolutionsTakePriorityOverAvailableSolutions:
+
+(?tmpUser rdf:type ns:TempUsers)
+(?tmpUser ns:TempUsers_hasSpecificPreferencesForSolutions ?tmpSolutionsIDOneForWhichUserHasSpecificPreferences)
+(?tmpUser ns:TempUsers_hasSpecificPreferencesForSolutions ?tmpSolutionsIDTwoForWhichUserHasSpecificPreferences)
+notEqual(?tmpSolutionsIDOneForWhichUserHasSpecificPreferences, ?tmpSolutionsIDTwoForWhichUserHasSpecificPreferences)
+
+(?tmpSolutionsIDOneForWhichUserHasSpecificPreferences rdf:type ?tmpSolutionOneClass)
+(?tmpSolutionsIDTwoForWhichUserHasSpecificPreferences rdf:type ?tmpSolutionTwoClass)
+equal(?tmpSolutionOneClass, ?tmpSolutionTwoClass)
+
+(?tmpEnvironment rdf:type ns:TempEnvironment)
+(?tmpEnvironment ns:TempEnvironment_installedSolutions ?tmpInstalledSolutionID)
+equal(?tmpInstalledSolutionID, ?tmpSolutionsIDOneForWhichUserHasSpecificPreferences)
+(?tmpEnvironment ns:TempEnvironment_availableSolutions ?tmpAvailableSolutionID)
+equal(?tmpAvailableSolutionID, ?tmpSolutionsIDTwoForWhichUserHasSpecificPreferences)
+
+->
+
+(ns:InstalledSolutionsTakePriorityOverAvailableSolutions rdf:type ns:TempSolutionsToBeLaunched)
+(ns:InstalledSolutionsTakePriorityOverAvailableSolutions ns:TempSolutionsToBeLaunched_IDs ?tmpSolutionsIDOneForWhichUserHasSpecificPreferences)
+
+]
+
+

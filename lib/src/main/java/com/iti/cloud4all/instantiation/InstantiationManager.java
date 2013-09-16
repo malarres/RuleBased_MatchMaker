@@ -3,7 +3,9 @@ package com.iti.cloud4all.instantiation;
 import com.hp.hpl.jena.datatypes.xsd.XSDDatatype;
 import com.hp.hpl.jena.ontology.DatatypeProperty;
 import com.hp.hpl.jena.ontology.Individual;
+import com.hp.hpl.jena.ontology.ObjectProperty;
 import com.hp.hpl.jena.rdf.model.Literal;
+import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.rdf.model.Statement;
 import com.iti.cloud4all.ontology.OntologyManager;
 
@@ -20,9 +22,12 @@ public class InstantiationManager
     public String USER_backgroundColor;
     public boolean USER_highContrast;
     public boolean USER_magnifierFullScreen;
+    public String USER_SpecificPreferencesForSolutions_IDs;
     
     public String DEVICE_REPORTER_OS_id;
     public String DEVICE_REPORTER_OS_version;
+    public String DEVICE_REPORTER_INSTALLEDSOLUTIONS_IDs;
+    public String DEVICE_REPORTER_AVAILABLESOLUTIONS_IDs;
     //-Node.js
     
     String SOURCE = "http://www.cloud4all.eu/SemanticFrameworkForContentAndSolutions.owl";
@@ -41,9 +46,12 @@ public class InstantiationManager
         USER_backgroundColor = "";
         USER_highContrast = false;
         USER_magnifierFullScreen = false;
+        USER_SpecificPreferencesForSolutions_IDs = "";
 
         DEVICE_REPORTER_OS_id = "";
         DEVICE_REPORTER_OS_version = "";
+        DEVICE_REPORTER_INSTALLEDSOLUTIONS_IDs = "";
+        DEVICE_REPORTER_AVAILABLESOLUTIONS_IDs = "";
     }
     
     public static InstantiationManager getInstance() 
@@ -98,6 +106,19 @@ public class InstantiationManager
             Statement magnifierFullScreenStat = OntologyManager.getInstance().model.createStatement(tmpUserOntInstance, magnifierFullScreenProp, magnifierFullScreenProp_value);
             OntologyManager.getInstance().model.add(magnifierFullScreenStat);
             
+            ObjectProperty specificPreferencesForSolutionsProp = OntologyManager.getInstance().model.getObjectProperty(NS + "TempUsers_hasSpecificPreferencesForSolutions");
+            String[] tmpSpecificPreferencesForSolutions_Str = USER_SpecificPreferencesForSolutions_IDs.split(" ");
+            for(int tmpCnt=0; tmpCnt<tmpSpecificPreferencesForSolutions_Str.length; tmpCnt++)
+            {
+                String tmpInstanceName = OntologyManager.getInstance().getInstanceNameBySolutionID(tmpSpecificPreferencesForSolutions_Str[tmpCnt]);
+                if(tmpInstanceName.equals("not found!") == false)
+                {
+                    Resource preferredSolutionResource = OntologyManager.getInstance().model.getResource(tmpInstanceName);
+                    Statement preferredSolutionStat = OntologyManager.getInstance().model.createStatement(tmpUserOntInstance, specificPreferencesForSolutionsProp, preferredSolutionResource);
+                    OntologyManager.getInstance().model.add(preferredSolutionStat);
+                }
+            }
+            
             /*DatatypeProperty screenReaderTTSEnabled_whenLaunchAtStartupIsTrue_Prop = OntologyManager.getInstance().model.getDatatypeProperty(NS + "TempUsers_ScreenReaderTTSEnabled_whenLaunchAtStartupIsTrue");
             
             if( ((VariableStringValue)tmpUser.screenReaderTTSEnabled.get(0)).condition.operator.property.equals("http://gpii.org/ns/LaunchAtStartup")
@@ -139,6 +160,32 @@ public class InstantiationManager
             Statement platformVersionStat = OntologyManager.getInstance().model.createStatement(tmpEnvironmentOntInstance, platformVersionProp, platformVersionProp_value);
             OntologyManager.getInstance().model.add(platformVersionStat);
             
+            ObjectProperty installedSolutionsIDsProp = OntologyManager.getInstance().model.getObjectProperty(NS + "TempEnvironment_installedSolutions");
+            String[] tmpInstalledSolutionsIDs_Str = DEVICE_REPORTER_INSTALLEDSOLUTIONS_IDs.split(" ");
+            for(int tmpCnt=0; tmpCnt<tmpInstalledSolutionsIDs_Str.length; tmpCnt++)
+            {
+                String tmpInstanceName = OntologyManager.getInstance().getInstanceNameBySolutionID(tmpInstalledSolutionsIDs_Str[tmpCnt]);
+                if(tmpInstanceName.equals("not found!") == false)
+                {
+                    Resource installedSolutionResource = OntologyManager.getInstance().model.getResource(tmpInstanceName);
+                    Statement installedSolutionsIDsStat = OntologyManager.getInstance().model.createStatement(tmpEnvironmentOntInstance, installedSolutionsIDsProp, installedSolutionResource);
+                    OntologyManager.getInstance().model.add(installedSolutionsIDsStat);
+                }
+            }
+            
+            ObjectProperty availableSolutionsIDsProp = OntologyManager.getInstance().model.getObjectProperty(NS + "TempEnvironment_availableSolutions");
+            String[] tmpAvailableSolutionsIDs_Str = DEVICE_REPORTER_AVAILABLESOLUTIONS_IDs.split(" ");
+            for(int tmpCnt=0; tmpCnt<tmpAvailableSolutionsIDs_Str.length; tmpCnt++)
+            {
+                String tmpInstanceName = OntologyManager.getInstance().getInstanceNameBySolutionID(tmpAvailableSolutionsIDs_Str[tmpCnt]);
+                if(tmpInstanceName.equals("not found!") == false)
+                {
+                    Resource availableSolutionResource = OntologyManager.getInstance().model.getResource(tmpInstanceName);
+                    Statement availableSolutionsIDsStat = OntologyManager.getInstance().model.createStatement(tmpEnvironmentOntInstance, availableSolutionsIDsProp, availableSolutionResource);
+                    OntologyManager.getInstance().model.add(availableSolutionsIDsStat);
+                }
+            }
+                                
             DatatypeProperty windowManagerIdProp = OntologyManager.getInstance().model.getDatatypeProperty(NS + "TempEnvironment_windowManager_id");
             Literal windowManagerIdProp_value = OntologyManager.getInstance().model.createTypedLiteral("unknown", XSDDatatype.XSDstring);
             Statement windowManagerIdStat = OntologyManager.getInstance().model.createStatement(tmpEnvironmentOntInstance, windowManagerIdProp, windowManagerIdProp_value);

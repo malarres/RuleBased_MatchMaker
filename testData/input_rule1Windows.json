@@ -28,7 +28,13 @@
         "solutions": [
             {
                 "id": "com.microsoft.windows.magnifier"
-            }
+            },
+			{
+                "id": "fluid.uiOptions.windows"
+            },
+			{
+				"id": "nvda.screenReader"
+			}
         ]
     }
 }

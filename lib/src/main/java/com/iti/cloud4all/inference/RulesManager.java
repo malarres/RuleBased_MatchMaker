@@ -11,6 +11,8 @@ import com.hp.hpl.jena.reasoner.rulesys.GenericRuleReasoner;
 import com.hp.hpl.jena.reasoner.rulesys.Rule;
 import com.iti.cloud4all.ontology.*;
 import java.io.BufferedReader;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -85,6 +87,7 @@ public class RulesManager
         }
         else
             res = res + "\tThere are no PossibleSolution instances!";
+        
 //-DEBUG       
         res = res + "\nRULES EXECUTION - START";
         List<Rule> rules = Rule.rulesFromURL(uri_MatchMaker_rules);
@@ -156,7 +159,34 @@ public class RulesManager
                 }
             }
         }
+        
+        //get TempSolutionsToBeLaunched
+        ArrayList<TempSolutionsToBeLaunched> allInstances_TempSolutionsToBeLaunched = OntologyManager.getInstance().getInstances(OntologyManager.TempSolutionsToBeLaunched_ID);
+        String tmpSolutionsToBeLaunchedIDs = "";
+        if(allInstances_TempSolutionsToBeLaunched != null)
+        {
+            for(int i=0; i<allInstances_TempSolutionsToBeLaunched.size(); i++)
+                tmpSolutionsToBeLaunchedIDs = tmpSolutionsToBeLaunchedIDs + allInstances_TempSolutionsToBeLaunched.get(i).toString();
+        }
+        else
+            res = res + "\tThere are no TempSolutionsToBeLaunched instances!";
+        
+        resultForNodeJs = resultForNodeJs + " - SolutionsToBeLaunched: " + tmpSolutionsToBeLaunchedIDs;
 
+        //DEBUG
+        try
+        {
+            //OutputStream out = new FileOutputStream("D:/CLOUD4ALL/Cloud4All_MatchMaker/src/ontology/ontologies/generatedOntologyWithTestUserAndEnvironmement.owl");
+            OutputStream out = new FileOutputStream("D:/CLOUD4ALL/github/RuleBased_MatchMaker/lib/generatedOntologyWithTestUserAndEnvironmement.owl");
+            OntologyManager.getInstance().model.write(out, "RDF/XML-ABBREV"); // readable rdf/xml
+            out.close();            
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        //-DEBUG
+        
         return resultForNodeJs;
     }
 }
