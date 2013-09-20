@@ -30,8 +30,8 @@ public class InstantiationManager
     public String DEVICE_REPORTER_AVAILABLESOLUTIONS_IDs;
     //-Node.js
     
-    String SOURCE = "http://www.cloud4all.eu/SemanticFrameworkForContentAndSolutions.owl";
-    String NS = SOURCE + "#";
+    public static final String SOURCE = "http://www.cloud4all.eu/SemanticFrameworkForContentAndSolutions.owl";
+    public static final String NS = SOURCE + "#";
     
     public String sammyFilepath;
     public String environmentProfileFilepath;

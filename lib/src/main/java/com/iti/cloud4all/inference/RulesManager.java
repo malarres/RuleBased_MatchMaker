@@ -41,149 +41,62 @@ public class RulesManager
         return instance;
     }
     
-    public String executeMyCloudRulesForFindingHandicapSituations()
+    public String executeMyCloudRulesForFindingHandicapSituations(boolean writeInfModelForDebug)
     {
-        String res = "";
         String resultForNodeJs = "";
 
-//DEBUG        
-        res = res + "\n\nINSTANCES BEFORE RULES EXECUTION:";
-        
-        //get TempUsers
-        ArrayList<TempUser> allInstances_TempUsers = OntologyManager.getInstance().getInstances(OntologyManager.TempUsers_ID);
-        if(allInstances_TempUsers != null)
-        {
-            for(int i=0; i<allInstances_TempUsers.size(); i++)
-                res = res + allInstances_TempUsers.get(i).toString();
-        }
-        else
-            res = res + "\tThere are no User instances!";
-        //get TempEnvironment
-        ArrayList<TempEnvironment> allInstances_TempEnvironment = OntologyManager.getInstance().getInstances(OntologyManager.TempEnvironment_ID);
-        if(allInstances_TempEnvironment != null)
-        {
-            for(int i=0; i<allInstances_TempEnvironment.size(); i++)
-                res = res + allInstances_TempEnvironment.get(i).toString();
-        }
-        else
-            res = res + "\tThere are no Environment instances!";
-        
-        //get TempHandicapSituations
-        ArrayList<TempHandicapSituation> allInstances_TempHandicapSituations = OntologyManager.getInstance().getInstances(OntologyManager.TempHandicapSituations_ID);
-        if(allInstances_TempHandicapSituations != null)
-        {
-            for(int i=0; i<allInstances_TempHandicapSituations.size(); i++)
-                res = res + allInstances_TempHandicapSituations.get(i).toString();
-        }
-        else
-            res = res + "\tThere are no HandicapSituation instances!";
-        
-        //get TempPossibleSolutions
-        ArrayList<TempPossibleSolution> allInstances_TempPossibleSolutions = OntologyManager.getInstance().getInstances(OntologyManager.TempPossibleSolutions_ID);
-        if(allInstances_TempPossibleSolutions != null)
-        {
-            for(int i=0; i<allInstances_TempPossibleSolutions.size(); i++)
-                res = res + allInstances_TempPossibleSolutions.get(i).toString();
-        }
-        else
-            res = res + "\tThere are no PossibleSolution instances!";
-        
-//-DEBUG       
-        res = res + "\nRULES EXECUTION - START";
+        //RULES EXECUTION - START
         List<Rule> rules = Rule.rulesFromURL(uri_MatchMaker_rules);
         GenericRuleReasoner r = new GenericRuleReasoner(rules);
         r.setOWLTranslation(true);           
         r.setTransitiveClosureCaching(true);
         InfModel infmodel = ModelFactory.createInfModel(r, OntologyManager.getInstance().model);
         OntologyManager.getInstance().model.add(infmodel.getDeductionsModel());
-        res = res + "RULES EXECUTION - END";
+        //RULES EXECUTION - END
+        
+        OntologyManager.getInstance().getInstancesAfterRulesExecution();
       
-        res = res + "\nINSTANCES AFTER RULES EXECUTION:";
-        
-//DEBUG       
-        //get TempUsers
-        allInstances_TempUsers = OntologyManager.getInstance().getInstances(OntologyManager.TempUsers_ID);
-        if(allInstances_TempUsers != null)
-        {
-            for(int i=0; i<allInstances_TempUsers.size(); i++)
-                res = res + allInstances_TempUsers.get(i).toString();
-        }
-        else
-            res = res + "\tThere are no User instances!";
-        
-        //get TempEnvironment
-        allInstances_TempEnvironment = OntologyManager.getInstance().getInstances(OntologyManager.TempEnvironment_ID);
-        if(allInstances_TempEnvironment != null)
-        {
-            for(int i=0; i<allInstances_TempEnvironment.size(); i++)
-                res = res + allInstances_TempEnvironment.get(i).toString();
-        }
-        else
-            res = res + "\tThere are no Environment instances!";
-        
         //get TempHandicapSituations
-        allInstances_TempHandicapSituations = OntologyManager.getInstance().getInstances(OntologyManager.TempHandicapSituations_ID);
-        if(allInstances_TempHandicapSituations != null)
+        if(OntologyManager.getInstance().allInstances_TempHandicapSituation != null)
         {
-            for(int i=0; i<allInstances_TempHandicapSituations.size(); i++)
-                res = res + allInstances_TempHandicapSituations.get(i).toString();
-        }
-        else
-            res = res + "\tThere are no HandicapSituation instances!";
-        
-        //get TempPossibleSolutions
-        allInstances_TempPossibleSolutions = OntologyManager.getInstance().getInstances(OntologyManager.TempPossibleSolutions_ID);
-        if(allInstances_TempPossibleSolutions != null)
-        {
-            for(int i=0; i<allInstances_TempPossibleSolutions.size(); i++)
-                res = res + allInstances_TempPossibleSolutions.get(i).toString();
-        }
-        else
-            res = res + "\tThere are no PossibleSolution instances!";
-//-DEBUG     
-        
-        //get TempHandicapSituations
-        if(allInstances_TempHandicapSituations != null)
-        {
-            for(int i=0; i<allInstances_TempHandicapSituations.size(); i++)
+            for(int i=0; i<OntologyManager.getInstance().allInstances_TempHandicapSituation.size(); i++)
             {
-                if(allInstances_TempHandicapSituations.get(i).problemWithMagnifierFullScreen)
+                if(OntologyManager.getInstance().allInstances_TempHandicapSituation.get(i).problemWithMagnifierFullScreen)
                 {
                     resultForNodeJs = "ENABLE_DEFAULT_THEME ENABLE_MAGNIFIER_WITH_INVERSE_COLOURS";
-                    break;
+                    //break;
                 }
-                else if(allInstances_TempHandicapSituations.get(i).problemWithHighContrast)
+                else if(OntologyManager.getInstance().allInstances_TempHandicapSituation.get(i).problemWithHighContrast)
                 {
                     resultForNodeJs = "ENABLE_DEFAULT_THEME ENABLE_MAGNIFIER_WITH_INVERSE_COLOURS";
-                    break;
+                    //break;
                 }
             }
         }
         
         //get TempSolutionsToBeLaunched
-        ArrayList<TempSolutionsToBeLaunched> allInstances_TempSolutionsToBeLaunched = OntologyManager.getInstance().getInstances(OntologyManager.TempSolutionsToBeLaunched_ID);
         String tmpSolutionsToBeLaunchedIDs = "";
-        if(allInstances_TempSolutionsToBeLaunched != null)
+        if(OntologyManager.getInstance().allInstances_TempSolutionsToBeLaunched != null)
         {
-            for(int i=0; i<allInstances_TempSolutionsToBeLaunched.size(); i++)
-                tmpSolutionsToBeLaunchedIDs = tmpSolutionsToBeLaunchedIDs + allInstances_TempSolutionsToBeLaunched.get(i).toString();
+            for(int i=0; i<OntologyManager.getInstance().allInstances_TempSolutionsToBeLaunched.size(); i++)
+                tmpSolutionsToBeLaunchedIDs = tmpSolutionsToBeLaunchedIDs + OntologyManager.getInstance().allInstances_TempSolutionsToBeLaunched.get(i).toString();
         }
-        else
-            res = res + "\tThere are no TempSolutionsToBeLaunched instances!";
         
         resultForNodeJs = resultForNodeJs + " - SolutionsToBeLaunched: " + tmpSolutionsToBeLaunchedIDs;
 
         //DEBUG
-        try
+        if(writeInfModelForDebug)
         {
-            //OutputStream out = new FileOutputStream("D:/CLOUD4ALL/Cloud4All_MatchMaker/src/ontology/ontologies/generatedOntologyWithTestUserAndEnvironmement.owl");
-            OutputStream out = new FileOutputStream("./generatedOntologyWithTestUserAndEnvironmement.owl");
-            OntologyManager.getInstance().model.write(out, "RDF/XML-ABBREV"); // readable rdf/xml
-            out.close();            
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
+            try
+            {
+                OutputStream out = new FileOutputStream("./lib/generatedOntologyWithTestUserAndEnvironmement.owl");
+                OntologyManager.getInstance().model.write(out, "RDF/XML-ABBREV"); // readable rdf/xml
+                out.close();            
+            }
+            catch(Exception e)
+            {
+                e.printStackTrace();
+            }
         }
         //-DEBUG
         

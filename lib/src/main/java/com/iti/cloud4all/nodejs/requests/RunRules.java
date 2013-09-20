@@ -10,6 +10,7 @@ import com.iti.cloud4all.instantiation.InstantiationManager;
 import com.iti.cloud4all.nodejs.RequestMessage;
 import com.iti.cloud4all.nodejs.ResponseMessage;
 import com.iti.cloud4all.nodejs.responses.Info;
+import com.iti.cloud4all.ontology.OntologyManager;
 
 public class RunRules extends RequestMessage 
 {
@@ -18,10 +19,12 @@ public class RunRules extends RequestMessage
     @Override
     public void process() 
     {
+        OntologyManager.getInstance().fillSolutionsArrayList();
+        
         InstantiationManager.getInstance().createInstanceInOntologyForJSONUserPreferencesSet();
         InstantiationManager.getInstance().createInstanceInOntologyForJSONEnvironment();
-        
-        String finalUserPrefs = RulesManager.getInstance().executeMyCloudRulesForFindingHandicapSituations();
+                
+        String finalUserPrefs = RulesManager.getInstance().executeMyCloudRulesForFindingHandicapSituations(true);
         
         ResponseMessage response = new Info(finalUserPrefs);
         response.send();

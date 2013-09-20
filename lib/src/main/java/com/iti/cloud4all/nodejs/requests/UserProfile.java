@@ -9,6 +9,7 @@ import com.iti.cloud4all.instantiation.InstantiationManager;
 import com.iti.cloud4all.nodejs.RequestMessage;
 import com.iti.cloud4all.nodejs.ResponseMessage;
 import com.iti.cloud4all.nodejs.responses.Info;
+import com.iti.cloud4all.ontology.OntologyManager;
 
 public class UserProfile extends RequestMessage {
 
@@ -39,6 +40,8 @@ public class UserProfile extends RequestMessage {
         if(specificPreferencesForSolutions_IDs == null)
             specificPreferencesForSolutions_IDs = "null";
         
+        InstantiationManager.getInstance(); //initialization
+        OntologyManager.getInstance();      //initialization        
         
         InstantiationManager.getInstance().USER_fontSize = Integer.parseInt(fontSize);
         InstantiationManager.getInstance().USER_magnification = Double.parseDouble(magnification);

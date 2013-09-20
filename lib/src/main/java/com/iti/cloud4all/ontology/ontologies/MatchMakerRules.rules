@@ -64,10 +64,8 @@ notEqual(?tmpSolutionsIDOneForWhichUserHasSpecificPreferences, ?tmpSolutionsIDTw
 equal(?tmpSolutionOneClass, ?tmpSolutionTwoClass)
 
 (?tmpEnvironment rdf:type ns:TempEnvironment)
-(?tmpEnvironment ns:TempEnvironment_installedSolutions ?tmpInstalledSolutionID)
-equal(?tmpInstalledSolutionID, ?tmpSolutionsIDOneForWhichUserHasSpecificPreferences)
-(?tmpEnvironment ns:TempEnvironment_availableSolutions ?tmpAvailableSolutionID)
-equal(?tmpAvailableSolutionID, ?tmpSolutionsIDTwoForWhichUserHasSpecificPreferences)
+(?tmpEnvironment ns:TempEnvironment_installedSolutions ?tmpSolutionsIDOneForWhichUserHasSpecificPreferences)
+(?tmpEnvironment ns:TempEnvironment_availableSolutions ?tmpSolutionsIDTwoForWhichUserHasSpecificPreferences)
 
 ->
 

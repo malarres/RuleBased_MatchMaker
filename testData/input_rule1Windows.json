@@ -17,7 +17,18 @@
 					"value": true
 				}
 			}
-		}]
+		}],
+		
+		"http://registry.gpii.org/applications/nvda.screenReader": [{}],
+		"http://registry.gpii.org/applications/org.gnome.orca": [{}],
+		"http://registry.gpii.org/applications/testScreenReader1.screenReader": [{}],
+		"http://registry.gpii.org/applications/testScreenReader2.screenReader": [{}],
+		"http://registry.gpii.org/applications/testScreenReader3.screenReader": [{}],
+		"http://registry.gpii.org/applications/testScreenReader4.screenReader": [{}],
+		"http://registry.gpii.org/applications/testScreenReader5.screenReader": [{}],
+		"http://registry.gpii.org/applications/testMagnifier1.screenMagnifier": [{}],
+		"http://registry.gpii.org/applications/testMagnifier2.screenMagnifier": [{}],
+		"http://registry.gpii.org/applications/testMagnifier3.screenMagnifier": [{}]
 	},
     "device": 
 	{
@@ -34,6 +45,12 @@
             },
 			{
 				"id": "nvda.screenReader"
+			},
+			{
+				"id": "testMagnifier2.screenMagnifier"
+			},
+			{
+				"id": "testMagnifier3.screenMagnifier"
 			}
         ]
     }
