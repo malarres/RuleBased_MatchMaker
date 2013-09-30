@@ -96,5 +96,18 @@
       <version>2.7.3</version>
       <type>zip</type>
     </dependency>
+    
+    <dependency>
+        <groupId>org.prevayler</groupId>
+        <artifactId>prevayler-core</artifactId>
+        <version>2.6</version>
+      </dependency>
+      <dependency>
+        <groupId>org.prevayler</groupId>
+        <artifactId>prevayler-factory</artifactId>
+        <version>2.6</version>
+      </dependency>
+      
+  
   </dependencies>
 </project>
