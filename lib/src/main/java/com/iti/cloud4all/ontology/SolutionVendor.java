@@ -21,7 +21,7 @@ public class SolutionVendor
 
     public String toString()
     {
-        String result = OntologyManager.getInstance().getClassNameByID(classID);
+        String result = "SolutionVendor:";//OntologyManager.getInstance().classNamesAndIDs.get(classID);
 
         result = result + "\n\thasSolutionVendorName: " + hasSolutionVendorName;
         result = result + "\n\tisSolutionVendorOf: " + isSolutionVendorOf;

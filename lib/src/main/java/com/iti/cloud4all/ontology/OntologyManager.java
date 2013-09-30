@@ -3,12 +3,18 @@ package com.iti.cloud4all.ontology;
 import com.hp.hpl.jena.ontology.Individual;
 import com.hp.hpl.jena.ontology.OntClass;
 import com.hp.hpl.jena.ontology.OntModel;
+import com.hp.hpl.jena.query.*;
 import com.hp.hpl.jena.rdf.model.*;
 import com.hp.hpl.jena.util.iterator.ExtendedIterator;
 import com.hp.hpl.jena.vocabulary.RDF;
 import com.iti.cloud4all.instantiation.InstantiationManager;
+import com.iti.cloud4all.prevayler.OntologyModel;
+import com.iti.cloud4all.prevayler.PrevaylerManager;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -16,7 +22,7 @@ import java.util.logging.Logger;
  *
  * @author nkak
  */
-public class OntologyManager 
+public class OntologyManager implements Serializable
 {
     boolean printDebugInfo;
     
@@ -161,6 +167,8 @@ public class OntologyManager
     
     public static final int lastID = 124;
     
+    public HashMap<Integer, String> classNamesAndIDs;
+    
     public ArrayList<TempUser> allInstances_TempUser;
     public ArrayList<TempEnvironment> allInstances_TempEnvironment;
     public ArrayList<TempHandicapSituation> allInstances_TempHandicapSituation;
@@ -177,6 +185,139 @@ public class OntologyManager
     {
         printDebugInfo = false;
         
+        classNamesAndIDs = new HashMap<Integer, String>();
+        
+        classNamesAndIDs.put(TempUsers_ID, "TempUsers");
+        classNamesAndIDs.put(TempEnvironment_ID, "TempEnvironment");
+        classNamesAndIDs.put(TempHandicapSituations_ID, "TempHandicapSituations");
+        classNamesAndIDs.put(TempPossibleSolutions_ID, "TempPossibleSolutions");
+        classNamesAndIDs.put(TempSolutionsToBeLaunched_ID, "TempSolutionsToBeLaunched");
+        classNamesAndIDs.put(DTVDevices_ID, "DTVDevices");
+        classNamesAndIDs.put(GamingConsoleDevices_ID, "GamingConsoleDevices");
+        classNamesAndIDs.put(ATMDevices_ID, "ATMDevices");
+        classNamesAndIDs.put(InfokioskDevices_ID, "InfokioskDevices");
+        classNamesAndIDs.put(SmartHomeDevices_ID, "SmartHomeDevices");
+        classNamesAndIDs.put(MSSurfaceDevices_ID, "MSSurfaceDevices");
+        classNamesAndIDs.put(SimpleMobilePhoneDevices_ID, "SimpleMobilePhoneDevices");
+        classNamesAndIDs.put(SmartMobilePhoneDevices_ID, "SmartMobilePhoneDevices");
+        classNamesAndIDs.put(PDADevices_ID, "PDADevices");
+        classNamesAndIDs.put(AtDriving_ID, "AtDriving");
+        classNamesAndIDs.put(AtEntertainment_ID, "AtEntertainment");
+        classNamesAndIDs.put(AtHome_ID, "AtHome");
+        classNamesAndIDs.put(AtWork_ID, "AtWork");
+        classNamesAndIDs.put(HoursOfTheDay_ID, "HoursOfTheDay");
+        classNamesAndIDs.put(LinuxOSPlatforms_ID, "LinuxOSPlatforms");
+        classNamesAndIDs.put(SUNOSOSPlatforms_ID, "SUNOSOSPlatforms");
+        classNamesAndIDs.put(Windows7OSPlatforms_ID, "Windows7OSPlatforms");
+        classNamesAndIDs.put(WES2007_ID, "WES2007");
+        classNamesAndIDs.put(WES2009_ID, "WES2009");
+        classNamesAndIDs.put(WindowsVistaOSPlatform_ID, "WindowsVistaOSPlatform");
+        classNamesAndIDs.put(WindowsXPOSPlatform_ID, "WindowsXPOSPlatform");
+        classNamesAndIDs.put(BrowserWithJava_ID, "BrowserWithJava");
+        classNamesAndIDs.put(Services_ID, "Services");
+        classNamesAndIDs.put(AccessSettings_ID, "AccessSettings");
+        classNamesAndIDs.put(AudioNotificationsGeneralSettings_ID, "AudioNotificationsGeneralSettings");
+        classNamesAndIDs.put(AudioNotificationsLinkSettings_ID, "AudioNotificationsLinkSettings");
+        classNamesAndIDs.put(AudioVolumeSettings_ID, "AudioVolumeSettings");
+        classNamesAndIDs.put(SpeechRecognitionSettings_ID, "SpeechRecognitionSettings");
+        classNamesAndIDs.put(EchoOptionsSettings_ID, "EchoOptionsSettings");
+        classNamesAndIDs.put(TextToSpeechEngineSettings_ID, "TextToSpeechEngineSettings");
+        classNamesAndIDs.put(TextToSpeechLanguageSettings_ID, "TextToSpeechLanguageSettings");
+        classNamesAndIDs.put(PunctuationSettings_ID, "PunctuationSettings");
+        classNamesAndIDs.put(ReadingCapitalsSettings_ID, "ReadingCapitalsSettings");
+        classNamesAndIDs.put(SpeakingRateSettings_ID, "SpeakingRateSettings");
+        classNamesAndIDs.put(SpeekingPitchSettings_ID, "SpeekingPitchSettings");
+        classNamesAndIDs.put(VoiceSettings_ID, "VoiceSettings");
+        classNamesAndIDs.put(VoiceVolume_ID, "VoiceVolume");
+        classNamesAndIDs.put(EasyOneCommunicatorSeetings_ID, "EasyOneCommunicatorSeetings");
+        classNamesAndIDs.put(LanguageSettings_ID, "LanguageSettings");
+        classNamesAndIDs.put(MsSurfaceSettings_ID, "MsSurfaceSettings");
+        classNamesAndIDs.put(SAToGoSettings_ID, "SAToGoSettings");
+        classNamesAndIDs.put(SmartHouseSettings_ID, "SmartHouseSettings");
+        classNamesAndIDs.put(BrailleDisplaySettings_ID, "BrailleDisplaySettings");
+        classNamesAndIDs.put(GestureSettings_ID, "GestureSettings");
+        classNamesAndIDs.put(UsersAssistantsIDSettings_ID, "UsersAssistantsIDSettings");
+        classNamesAndIDs.put(UsersContactsSettings_ID, "UsersContactsSettings");
+        classNamesAndIDs.put(Gmail_ID, "Gmail");
+        classNamesAndIDs.put(UsersIDSettings_ID, "UsersIDSettings");
+        classNamesAndIDs.put(UsersLanguageSettings_ID, "UsersLanguageSettings");
+        classNamesAndIDs.put(UsersXMPPChatIDSettings_ID, "UsersXMPPChatIDSettings");
+        classNamesAndIDs.put(UsersXMPPPasswordSettings_ID, "UsersXMPPPasswordSettings");
+        classNamesAndIDs.put(ColorSettings_ID, "ColorSettings");
+        classNamesAndIDs.put(ButtonSettings_ID, "ButtonSettings");
+        classNamesAndIDs.put(InterfaceSettings_ID, "InterfaceSettings");
+        classNamesAndIDs.put(KeyboardLayoutSettings_ID, "KeyboardLayoutSettings");
+        classNamesAndIDs.put(MagnifierSettings_ID, "MagnifierSettings");
+        classNamesAndIDs.put(SubtitleSettings_ID, "SubtitleSettings");
+        classNamesAndIDs.put(TextSizeSettings_ID, "TextSizeSettings");
+        classNamesAndIDs.put(TextStyleSettings_ID, "TextStyleSettings");
+        classNamesAndIDs.put(VisualNotificationsSettings_ID, "VisualNotificationsSettings");
+        classNamesAndIDs.put(VisualResponseSettings_ID, "VisualResponseSettings");
+        classNamesAndIDs.put(WebAnywhereSettings_ID, "WebAnywhereSettings");
+        classNamesAndIDs.put(SystemsToTransformImagesIntoSoundOrVoice_ID, "SystemsToTransformImagesIntoSoundOrVoice");
+        classNamesAndIDs.put(SatelliteNavigationSystem_ID, "SatelliteNavigationSystem");
+        classNamesAndIDs.put(WordProcessingSoftware_ID, "WordProcessingSoftware");
+        classNamesAndIDs.put(EasyOneCommunicator_ID, "EasyOneCommunicator");
+        classNamesAndIDs.put(SocialNetworkApp_ID, "SocialNetworkApp");
+        classNamesAndIDs.put(SoftwareForSoundOrSpeechAmplification_ID, "SoftwareForSoundOrSpeechAmplification");
+        classNamesAndIDs.put(PaperDocumentsReadingSystemOCR_ID, "PaperDocumentsReadingSystemOCR");
+        classNamesAndIDs.put(SAToGo_ID, "SAToGo");
+        classNamesAndIDs.put(SpeechStreamTextHelp_ID, "SpeechStreamTextHelp");
+        classNamesAndIDs.put(WebAnywhere_ID, "WebAnywhere");
+        classNamesAndIDs.put(VideoMagnifier_ID, "VideoMagnifier");
+        classNamesAndIDs.put(DelayedCaptioningSystem_ID, "DelayedCaptioningSystem");
+        classNamesAndIDs.put(RealTimeCaptioningSystem_ID, "RealTimeCaptioningSystem");
+        classNamesAndIDs.put(SoftwareInterfaceForComputer_ID, "SoftwareInterfaceForComputer");
+        classNamesAndIDs.put(eKiosk_ID, "eKiosk");
+        classNamesAndIDs.put(AlternativeInputDeviceForComputer_ID, "AlternativeInputDeviceForComputer");
+        classNamesAndIDs.put(EyegazeSystem_ID, "EyegazeSystem");
+        classNamesAndIDs.put(MsSurface_ID, "MsSurface");
+        classNamesAndIDs.put(VoiceRecognitionSystem_ID, "VoiceRecognitionSystem");
+        classNamesAndIDs.put(PointingDevice_ID, "PointingDevice");
+        classNamesAndIDs.put(SwitchInterface_ID, "SwitchInterface");
+        classNamesAndIDs.put(MouseControlSoftware_ID, "MouseControlSoftware");
+        classNamesAndIDs.put(OnScreenKeyboard_ID, "OnScreenKeyboard");
+        classNamesAndIDs.put(SoftwareForAdjustingInoutDevicesResponse_ID, "SoftwareForAdjustingInoutDevicesResponse");
+        classNamesAndIDs.put(WordPredictionSoftware_ID, "WordPredictionSoftware");
+        classNamesAndIDs.put(SpeechSynthesis_ID, "SpeechSynthesis");
+        classNamesAndIDs.put(MagnifyingSoftware_ID, "MagnifyingSoftware");
+        classNamesAndIDs.put(ScreenReader_ID, "ScreenReaderSoftware");
+        classNamesAndIDs.put(SoftwareForAdjustingColorCombinationAndTextSize_ID, "SoftwareForAdjustingColorCombinationAndTextSize");
+        classNamesAndIDs.put(SoftwareToModifyThePointerAppearance_ID, "SoftwareToModifyThePointerAppearance");
+        classNamesAndIDs.put(SmartHouse_ID, "SmartHouse");
+        classNamesAndIDs.put(DeviceVendors_ID, "DeviceVendors");
+        classNamesAndIDs.put(PlatformVendors_ID, "PlatformVendors");
+        classNamesAndIDs.put(SolutionVendors_ID, "SolutionVendors");
+        classNamesAndIDs.put(PlatformSettings_AndroidPhoneInteractionSettings_ID, "AndroidPhoneInteractionSettings");
+        classNamesAndIDs.put(PlatformSettings_AndroidPhoneSettings_ID, "AndroidPhoneSettings");
+        classNamesAndIDs.put(PlatformSettings_DesktopSettings_ID, "DesktopSettings");
+        classNamesAndIDs.put(PlatformSettings_DigitalTV_ID, "DigitalTV");
+        classNamesAndIDs.put(PlatformSettings_IOSPhoneSettings_ID, "IOSPhoneSettings");
+        classNamesAndIDs.put(PlatformSettings_SimplePhoneSettings_ID, "SimplePhoneSettings");
+        classNamesAndIDs.put(PlatformSettings_WindowsPhoneSettings_ID, "WindowsPhoneSettings");
+        classNamesAndIDs.put(ApplicationSettings_EasyOneCommunicatorSettings_ID, "EasyOneCommunicatorSettings");
+        classNamesAndIDs.put(ApplicationSettings_EKioskSettings_ID, "EKioskSettings");
+        classNamesAndIDs.put(ApplicationSettings_Maavis_ID, "Maavis");
+        classNamesAndIDs.put(ApplicationSettings_MSSurfaceSettings_ID, "MSSurfaceSettings");
+        classNamesAndIDs.put(ApplicationSettings_ReadWriteGold_TextHelp_ID, "ReadWriteGold_TextHelp");
+        classNamesAndIDs.put(ApplicationSettings_SAToGoSettings_ID, "SAToGoSettings");
+        classNamesAndIDs.put(ApplicationSettings_SocialNetworkAppSettings_ID, "SocialNetworkAppSettings");
+        classNamesAndIDs.put(ApplicationSettings_SpeechStream_TextHelp_ID, "SpeechStream_TextHelp");
+        classNamesAndIDs.put(ApplicationSettings_WebAnywhereSettings_ID, "WebAnywhereSettings");
+        classNamesAndIDs.put(GNOMEDesktopAccessibilitySettings_ID, "GNOMEDesktopAccessibilitySettings");
+        classNamesAndIDs.put(BrowserSettings_Firefox10_0_1Settings_ID, "Firefox10_0_1Settings");
+        classNamesAndIDs.put(BrowserSettings_IE8Settings_ID, "IE8Settings");
+        classNamesAndIDs.put(ScreenMagnifierSettings_ISO24751ScreenMagnifierSettings_ID, "ISO24751ScreenMagnifierSettings");
+        classNamesAndIDs.put(ScreenMagnifierSettings_LinuxBuiltInScreenMagnifierSettings_ID, "LinuxBuiltInScreenMagnifierSettings");
+        classNamesAndIDs.put(ScreenMagnifierSettings_WindowsBuiltInScreenMagnifierSettings_ID, "WindowsBuiltInScreenMagnifierSettings");
+        classNamesAndIDs.put(ScreenMagnifierSettings_ZoomTextSettings_ID, "ZoomTextSettings");
+        classNamesAndIDs.put(ScreenReaderSettings_ISO24751ScreenReaderSettings_ID, "ISO24751ScreenReaderSettings");
+        classNamesAndIDs.put(ScreenReaderSettings_JAWSSettings_ID, "JAWSSettings");
+        classNamesAndIDs.put(ScreenReaderSettings_NVDASettings_ID, "NVDASettings");
+        classNamesAndIDs.put(ScreenReaderSettings_OrcaSettings_ID, "OrcaSettings");
+        classNamesAndIDs.put(ScreenReaderSettings_WinSevenBuiltInNarratorSettings_ID, "WinSevenBuiltInNarratorSettings");
+        
+        
         allInstances_TempUser = new ArrayList<TempUser>();
         allInstances_TempEnvironment = new ArrayList<TempEnvironment>();
         allInstances_TempHandicapSituation = new ArrayList<TempHandicapSituation>();
@@ -186,9 +327,132 @@ public class OntologyManager
         
         // create an empty model
         model = ModelFactory.createOntologyModel();
+        loadOntology();
         
+        if(PrevaylerManager.getInstance().isThereAnyOntModelStored())
+        {
+            PrevaylerManager.getInstance().debug = PrevaylerManager.getInstance().debug + "[MODEL FOUND]";
+            
+            ArrayList<String> allInstances_Solution_Str = PrevaylerManager.getInstance().getLastSolutionsArray();
+            Solution tmpSol = null;
+            int solCounter = 0;
+            for(int i=0; i<allInstances_Solution_Str.size(); i++)
+            {
+                if(i%3 == 0)
+                {
+                    tmpSol = new Solution();
+                    tmpSol.instanceName = allInstances_Solution_Str.get(i);
+                }
+                else if(i%3 == 1)
+                    tmpSol.hasSolutionName = allInstances_Solution_Str.get(i);
+                else if(i%3 == 2)
+                {
+                    solCounter++;
+                    tmpSol.id = allInstances_Solution_Str.get(i);
+                    allInstances_Solution.add(tmpSol);
+                    //PrevaylerManager.getInstance().debug = PrevaylerManager.getInstance().debug + "\n\n[solution " + Integer.toString(solCounter) + "]" + tmpSol.toString();
+                }
+            }
+            
+            //PrevaylerManager.getInstance().debug = PrevaylerManager.getInstance().debug + "[MODEL FOUND][allInstances_Solution_Str size: " + Integer.toString(allInstances_Solution_Str.size()) + "]";
+        }
+        else
+        {
+            ExtendedIterator classes = model.listClasses();
+        
+            while(classes.hasNext())
+            {
+                OntClass tmpClass = (OntClass)classes.next();
+
+                int tmpClassID = -1;
+                if(tmpClass != null)
+                    tmpClassID = getClassIDByName(tmpClass.getLocalName());
+
+                //---------
+                //Solutions
+                //---------
+                if(tmpClassID == SystemsToTransformImagesIntoSoundOrVoice_ID
+                        || tmpClassID == SatelliteNavigationSystem_ID
+                        || tmpClassID == WordProcessingSoftware_ID
+                        || tmpClassID == EasyOneCommunicator_ID
+                        || tmpClassID == SocialNetworkApp_ID
+                        || tmpClassID == SoftwareForSoundOrSpeechAmplification_ID
+                        || tmpClassID == PaperDocumentsReadingSystemOCR_ID
+                        || tmpClassID == SAToGo_ID
+                        || tmpClassID == SpeechStreamTextHelp_ID
+                        || tmpClassID == WebAnywhere_ID
+                        || tmpClassID == VideoMagnifier_ID
+                        || tmpClassID == DelayedCaptioningSystem_ID
+                        || tmpClassID == RealTimeCaptioningSystem_ID
+                        || tmpClassID == SoftwareInterfaceForComputer_ID
+                        || tmpClassID == eKiosk_ID
+                        || tmpClassID == AlternativeInputDeviceForComputer_ID
+                        || tmpClassID == EyegazeSystem_ID
+                        || tmpClassID == MsSurface_ID
+                        || tmpClassID == VoiceRecognitionSystem_ID
+                        || tmpClassID == PointingDevice_ID
+                        || tmpClassID == SwitchInterface_ID
+                        || tmpClassID == MouseControlSoftware_ID
+                        || tmpClassID == OnScreenKeyboard_ID
+                        || tmpClassID == SoftwareForAdjustingInoutDevicesResponse_ID
+                        || tmpClassID == WordPredictionSoftware_ID
+                        || tmpClassID == SpeechSynthesis_ID
+                        || tmpClassID == MagnifyingSoftware_ID
+                        || tmpClassID == ScreenReader_ID
+                        || tmpClassID == SoftwareForAdjustingColorCombinationAndTextSize_ID
+                        || tmpClassID == SoftwareToModifyThePointerAppearance_ID
+                        || tmpClassID == SmartHouse_ID)
+                {
+                    ExtendedIterator instances = tmpClass.listInstances();
+
+                    while(instances.hasNext())
+                    {
+                        Individual tmpInstance = (Individual)instances.next();
+
+                        Solution tmpSolution = new Solution();
+
+                        //tmpSolution.classID = tmpClassID;
+                        tmpSolution.instanceName = tmpInstance.getURI();
+                        tmpSolution.id = tmpInstance.getPropertyValue(model.getProperty(InstantiationManager.NS, "id")).asLiteral().getValue().toString();
+                        tmpSolution.hasSolutionName = tmpInstance.getPropertyValue(model.getProperty(InstantiationManager.NS, "hasSolutionName")).asLiteral().getValue().toString();
+                        /*tmpSolution.hasSolutionDescription = tmpInstance.getPropertyValue(model.getProperty(InstantiationManager.NS, "hasSolutionDescription")).asLiteral().getValue().toString();
+                        String tmpFreeAllowedNrOfInvocations = tmpInstance.getPropertyValue(model.getProperty(InstantiationManager.NS, "freeAllowedNrOfInvocations")).asLiteral().getValue().toString();
+                        if(tmpFreeAllowedNrOfInvocations.length() > 0)
+                            tmpSolution.freeAllowedNrOfInvocations = Integer.parseInt(tmpFreeAllowedNrOfInvocations);
+                        String tmpHasCost = tmpInstance.getPropertyValue(model.getProperty(InstantiationManager.NS, "hasCost")).asLiteral().getValue().toString();
+                        if(tmpHasCost.length() > 0)
+                            tmpSolution.hasCost = Double.parseDouble(tmpHasCost);
+                        tmpSolution.preferredLang = tmpInstance.getPropertyValue(model.getProperty(InstantiationManager.NS, "preferredLang")).asLiteral().getValue().toString();
+                        tmpSolution.speechRate = tmpInstance.getPropertyValue(model.getProperty(InstantiationManager.NS, "speechRate")).asLiteral().getValue().toString();
+                        tmpSolution.hasSolutionSpecificSetting = tmpInstance.getPropertyValue(model.getProperty(InstantiationManager.NS, "hasSolutionSpecificSetting")).asLiteral().getValue().toString();
+                        tmpSolution.hasSolutionVendor = tmpInstance.getPropertyValue(model.getProperty(InstantiationManager.NS, "hasSolutionVendor")).asLiteral().getValue().toString();
+                        tmpSolution.runsOnDevice = tmpInstance.getPropertyValue(model.getProperty(InstantiationManager.NS, "runsOnDevice")).asLiteral().getValue().toString();
+                        tmpSolution.runsOnPlatform = tmpInstance.getPropertyValue(model.getProperty(InstantiationManager.NS, "runsOnPlatform")).asLiteral().getValue().toString();
+                        tmpSolution.hasCostCurrency = tmpInstance.getPropertyValue(model.getProperty(InstantiationManager.NS, "hasCostCurrency")).asLiteral().getValue().toString();
+                        tmpSolution.hasSolutionVersion = tmpInstance.getPropertyValue(model.getProperty(InstantiationManager.NS, "hasSolutionVersion")).asLiteral().getValue().toString();
+                        */
+                        allInstances_Solution.add(tmpSolution);
+                    }
+                }
+            }
+            
+            PrevaylerManager.getInstance().updatePrevayler(allInstances_Solution);
+            PrevaylerManager.getInstance().debug = PrevaylerManager.getInstance().debug + "[MODEL NOT FOUND]";
+        }
+    }
+    
+    public static OntologyManager getInstance() 
+    {
+        if(instance == null) 
+            instance = new OntologyManager();
+        return instance;
+    }
+    
+    public void loadOntology()
+    {
         String owlPathStr = System.getProperty("user.dir") + "/lib/RB_MM/extra-resources/semantincFrameworkOfContentAndSolutions.owl";
         InputStream in = null;
+        
         try {
             in = new FileInputStream(owlPathStr);
         } catch(Exception ex) {
@@ -198,7 +462,7 @@ public class OntologyManager
         if (in == null) {
             throw new IllegalArgumentException( "File: semantincFrameworkOfContentAndSolutions.owl not found!");
         }
-        
+      
         // read the RDF/XML file
         model.read(in, "");
         
@@ -221,655 +485,194 @@ public class OntologyManager
         return out.toString();
     }
     
-    public static OntologyManager getInstance() 
-    {
-        if(instance == null) 
-            instance = new OntologyManager();
-        return instance;
-    }
-    
     public int getClassIDByName(String tmpClassName)
     {
-        if(tmpClassName != null)
+        Iterator<Integer> keySetIterator = classNamesAndIDs.keySet().iterator();
+
+        while(keySetIterator.hasNext())
         {
-            if(tmpClassName.equals("TempUsers"))
-                return TempUsers_ID;
-            else if(tmpClassName.equals("TempEnvironment"))
-                return TempEnvironment_ID;
-            else if(tmpClassName.equals("TempHandicapSituations"))
-                return TempHandicapSituations_ID;
-            else if(tmpClassName.equals("TempPossibleSolutions"))
-                return TempPossibleSolutions_ID;
-            else if(tmpClassName.equals("TempSolutionsToBeLaunched"))
-                return TempSolutionsToBeLaunched_ID;
+            Integer key = keySetIterator.next();
+            if(classNamesAndIDs.get(key).equals(tmpClassName))
+                return key;
+        }
+        
+        return -1;
+    }
+    
+    public void sparql_get_TempHandicapSituations()
+    {
+        allInstances_TempHandicapSituation.clear();
+        
+        /*String sparqlPathStr = System.getProperty("user.dir") + "/lib/RB_MM/extra-resources/getTempHandicapSituations.sparql";
+        String queryString = "";
+        try {
+            InputStream in = new FileInputStream(sparqlPathStr);
+            queryString = fromStream(in);
+        } catch(Exception ex) {
+            Logger.getLogger(OntologyManager.class.getName()).log(Level.SEVERE, null, ex);
+        }*/      
+        String queryString = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> " +
+            "PREFIX cld: <http://www.cloud4all.eu/SemanticFrameworkForContentAndSolutions.owl#>" +
+            "SELECT * " + 
+            "WHERE {" + 
+            "?q rdf:type cld:TempHandicapSituations ; cld:TH_Magnification ?a ; cld:TH_ScreenReaderAndGnome ?b ; cld:TH_FontSize ?c ; cld:TH_ForegroundAndBackgroundColor ?d ; cld:TH_HighContrast ?e ; cld:TH_MagnifierFullScreen ?f " +
+            "}";
+        
+        Query query = QueryFactory.create(queryString);
+        // Execute the query and obtain results
+        QueryExecution qe = QueryExecutionFactory.create(query, model);
+        com.hp.hpl.jena.query.ResultSet results =  qe.execSelect();
 
+        while (results.hasNext()) 
+        {
+            QuerySolution querySolution = results.nextSolution();
+            Resource tmpInstance = querySolution.getResource("q");
+            Literal problemWithMagnification_Literal = querySolution.getLiteral("a");
+            Literal problemWithScreenReaderAndGnome_Literal = querySolution.getLiteral("b");
+            Literal problemWithFontSize_Literal = querySolution.getLiteral("c");
+            Literal problemWithForegroundAndBackgroundColor_Literal = querySolution.getLiteral("d");
+            Literal problemWithHighContrast_Literal = querySolution.getLiteral("e");
+            Literal problemWithMagnifierFullScreen_Literal = querySolution.getLiteral("f");
+        
+            TempHandicapSituation tmpHandicapSituation;
+            TempHandicapSituation existingHandicapSituation = getTempHandicapSituation(tmpInstance.getURI());
+            if(existingHandicapSituation == null)
+                tmpHandicapSituation = new TempHandicapSituation();
+            else
+                tmpHandicapSituation = existingHandicapSituation;
 
-            else if(tmpClassName.equals("DTVDevices"))
-                return DTVDevices_ID;
-            else if(tmpClassName.equals("GamingConsoleDevices"))
-                return GamingConsoleDevices_ID;
-            else if(tmpClassName.equals("ATMDevices"))
-                return ATMDevices_ID;
-            else if(tmpClassName.equals("InfokioskDevices"))
-                return InfokioskDevices_ID;
-            else if(tmpClassName.equals("SmartHomeDevices"))
-                return SmartHomeDevices_ID;
-            else if(tmpClassName.equals("MSSurfaceDevices"))
-                return MSSurfaceDevices_ID;
-            else if(tmpClassName.equals("SimpleMobilePhoneDevices"))
-                return SimpleMobilePhoneDevices_ID;
-            else if(tmpClassName.equals("SmartMobilePhoneDevices"))
-                return SmartMobilePhoneDevices_ID;
-            else if(tmpClassName.equals("PDADevices"))
-                return PDADevices_ID;
-            else if(tmpClassName.equals("AtDriving"))
-                return AtDriving_ID;
-            else if(tmpClassName.equals("AtEntertainment"))
-                return AtEntertainment_ID;
-            else if(tmpClassName.equals("AtHome"))
-                return AtHome_ID;
-            else if(tmpClassName.equals("AtWork"))
-                return AtWork_ID;
-            else if(tmpClassName.equals("HoursOfTheDay"))
-                return HoursOfTheDay_ID;
-            else if(tmpClassName.equals("LinuxOSPlatforms"))
-                return LinuxOSPlatforms_ID;
-            else if(tmpClassName.equals("SUNOSOSPlatforms"))
-                return SUNOSOSPlatforms_ID;
-            else if(tmpClassName.equals("Windows7OSPlatforms"))
-                return Windows7OSPlatforms_ID;
-            else if(tmpClassName.equals("WES2007"))
-                return WES2007_ID;
-            else if(tmpClassName.equals("WES2009"))
-                return WES2009_ID;
-            else if(tmpClassName.equals("WindowsVistaOSPlatform"))
-                return WindowsVistaOSPlatform_ID;
-            else if(tmpClassName.equals("WindowsXPOSPlatform"))
-                return WindowsXPOSPlatform_ID;
-            else if(tmpClassName.equals("BrowserWithJava"))
-                return BrowserWithJava_ID;
-            else if(tmpClassName.equals("Services"))
-                return Services_ID;
-            else if(tmpClassName.equals("AccessSettings"))
-                return AccessSettings_ID;
-            else if(tmpClassName.equals("AudioNotificationsGeneralSettings"))
-                return AudioNotificationsGeneralSettings_ID;
-            else if(tmpClassName.equals("AudioNotificationsLinkSettings"))
-                return AudioNotificationsLinkSettings_ID;
-            else if(tmpClassName.equals("AudioVolumeSettings"))
-                return AudioVolumeSettings_ID;
-            else if(tmpClassName.equals("SpeechRecognitionSettings"))
-                return SpeechRecognitionSettings_ID;
-            else if(tmpClassName.equals("EchoOptionsSettings"))
-                return EchoOptionsSettings_ID;
-            else if(tmpClassName.equals("TextToSpeechEngineSettings"))
-                return TextToSpeechEngineSettings_ID;
-            else if(tmpClassName.equals("TextToSpeechLanguageSettings"))
-                return TextToSpeechLanguageSettings_ID;
-            else if(tmpClassName.equals("PunctuationSettings"))
-                return PunctuationSettings_ID;
-            else if(tmpClassName.equals("ReadingCapitalsSettings"))
-                return ReadingCapitalsSettings_ID;
-            else if(tmpClassName.equals("SpeakingRateSettings"))
-                return SpeakingRateSettings_ID;
-            else if(tmpClassName.equals("SpeekingPitchSettings"))
-                return SpeekingPitchSettings_ID;
-            else if(tmpClassName.equals("VoiceSettings"))
-                return VoiceSettings_ID;
-            else if(tmpClassName.equals("VoiceVolume"))
-                return VoiceVolume_ID;
-            else if(tmpClassName.equals("EasyOneCommunicatorSeetings"))
-                return EasyOneCommunicatorSeetings_ID;
-            else if(tmpClassName.equals("LanguageSettings"))
-                return LanguageSettings_ID;
-            else if(tmpClassName.equals("MsSurfaceSettings"))
-                return MsSurfaceSettings_ID;
-            else if(tmpClassName.equals("SAToGoSettings"))
-                return SAToGoSettings_ID;
-            else if(tmpClassName.equals("SmartHouseSettings"))
-                return SmartHouseSettings_ID;
-            else if(tmpClassName.equals("BrailleDisplaySettings"))
-                return BrailleDisplaySettings_ID;
-            else if(tmpClassName.equals("GestureSettings"))
-                return GestureSettings_ID;
-            else if(tmpClassName.equals("UsersAssistantsIDSettings"))
-                return UsersAssistantsIDSettings_ID;
-            else if(tmpClassName.equals("UsersContactsSettings"))
-                return UsersContactsSettings_ID;
-            else if(tmpClassName.equals("Gmail"))
-                return Gmail_ID;
-            else if(tmpClassName.equals("UsersIDSettings"))
-                return UsersIDSettings_ID;
-            else if(tmpClassName.equals("UsersLanguageSettings"))
-                return UsersLanguageSettings_ID;
-            else if(tmpClassName.equals("UsersXMPPChatIDSettings"))
-                return UsersXMPPChatIDSettings_ID;
-            else if(tmpClassName.equals("UsersXMPPPasswordSettings"))
-                return UsersXMPPPasswordSettings_ID;
-            else if(tmpClassName.equals("ColorSettings"))
-                return ColorSettings_ID;
-            else if(tmpClassName.equals("ButtonSettings"))
-                return ButtonSettings_ID;
-            else if(tmpClassName.equals("InterfaceSettings"))
-                return InterfaceSettings_ID;
-            else if(tmpClassName.equals("KeyboardLayoutSettings"))
-                return KeyboardLayoutSettings_ID;
-            else if(tmpClassName.equals("MagnifierSettings"))
-                return MagnifierSettings_ID;
-            else if(tmpClassName.equals("SubtitleSettings"))
-                return SubtitleSettings_ID;
-            else if(tmpClassName.equals("TextSizeSettings"))
-                return TextSizeSettings_ID;
-            else if(tmpClassName.equals("TextStyleSettings"))
-                return TextStyleSettings_ID;
-            else if(tmpClassName.equals("VisualNotificationsSettings"))
-                return VisualNotificationsSettings_ID;
-            else if(tmpClassName.equals("VisualResponseSettings"))
-                return VisualResponseSettings_ID;
-            else if(tmpClassName.equals("WebAnywhereSettings"))
-                return WebAnywhereSettings_ID;
-            else if(tmpClassName.equals("SystemsToTransformImagesIntoSoundOrVoice"))
-                return SystemsToTransformImagesIntoSoundOrVoice_ID;
-            else if(tmpClassName.equals("SatelliteNavigationSystem"))
-                return SatelliteNavigationSystem_ID;
-            else if(tmpClassName.equals("WordProcessingSoftware"))
-                return WordProcessingSoftware_ID;
-            else if(tmpClassName.equals("EasyOneCommunicator"))
-                return EasyOneCommunicator_ID;
-            else if(tmpClassName.equals("SocialNetworkApp"))
-                return SocialNetworkApp_ID;
-            else if(tmpClassName.equals("SoftwareForSoundOrSpeechAmplification"))
-                return SoftwareForSoundOrSpeechAmplification_ID;
-            else if(tmpClassName.equals("PaperDocumentsReadingSystemOCR"))
-                return PaperDocumentsReadingSystemOCR_ID;
-            else if(tmpClassName.equals("SAToGo"))
-                return SAToGo_ID;
-            else if(tmpClassName.equals("SpeechStreamTextHelp"))
-                return SpeechStreamTextHelp_ID;
-            else if(tmpClassName.equals("WebAnywhere"))
-                return WebAnywhere_ID;
-            else if(tmpClassName.equals("VideoMagnifier"))
-                return VideoMagnifier_ID;
-            else if(tmpClassName.equals("DelayedCaptioningSystem"))
-                return DelayedCaptioningSystem_ID;
-            else if(tmpClassName.equals("RealTimeCaptioningSystem"))
-                return RealTimeCaptioningSystem_ID;
-            else if(tmpClassName.equals("SoftwareInterfaceForComputer"))
-                return SoftwareInterfaceForComputer_ID;
-            else if(tmpClassName.equals("eKiosk"))
-                return eKiosk_ID;
-            else if(tmpClassName.equals("AlternativeInputDeviceForComputer"))
-                return AlternativeInputDeviceForComputer_ID;
-            else if(tmpClassName.equals("EyegazeSystem"))
-                return EyegazeSystem_ID;
-            else if(tmpClassName.equals("MsSurface"))
-                return MsSurface_ID;
-            else if(tmpClassName.equals("VoiceRecognitionSystem"))
-                return VoiceRecognitionSystem_ID;
-            else if(tmpClassName.equals("PointingDevice"))
-                return PointingDevice_ID;
-            else if(tmpClassName.equals("SwitchInterface"))
-                return SwitchInterface_ID;
-            else if(tmpClassName.equals("MouseControlSoftware"))
-                return MouseControlSoftware_ID;
-            else if(tmpClassName.equals("OnScreenKeyboard"))
-                return OnScreenKeyboard_ID;
-            else if(tmpClassName.equals("SoftwareForAdjustingInoutDevicesResponse"))
-                return SoftwareForAdjustingInoutDevicesResponse_ID;
-            else if(tmpClassName.equals("WordPredictionSoftware"))
-                return WordPredictionSoftware_ID;
-            else if(tmpClassName.equals("SpeechSynthesis"))
-                return SpeechSynthesis_ID;
-            else if(tmpClassName.equals("MagnifyingSoftware"))
-                return MagnifyingSoftware_ID;
-            else if(tmpClassName.equals("ScreenReaderSoftware"))
-                return ScreenReader_ID;
-            else if(tmpClassName.equals("SoftwareForAdjustingColorCombinationAndTextSize"))
-                return SoftwareForAdjustingColorCombinationAndTextSize_ID;
-            else if(tmpClassName.equals("SoftwareToModifyThePointerAppearance"))
-                return SoftwareToModifyThePointerAppearance_ID;
-            else if(tmpClassName.equals("SmartHouse"))
-                return SmartHouse_ID;
-            else if(tmpClassName.equals("DeviceVendors"))
-                return DeviceVendors_ID;
-            else if(tmpClassName.equals("PlatformVendors"))
-                return PlatformVendors_ID;
-            else if(tmpClassName.equals("SolutionVendors"))
-                return SolutionVendors_ID;
+            tmpHandicapSituation.instanceName = tmpInstance.getURI();
+            if(problemWithMagnification_Literal != null) 
+                tmpHandicapSituation.problemWithMagnification = problemWithMagnification_Literal.getBoolean();
+            if(problemWithScreenReaderAndGnome_Literal != null) 
+                tmpHandicapSituation.problemWithScreenReaderAndGnome = problemWithScreenReaderAndGnome_Literal.getBoolean();
+            if(problemWithFontSize_Literal != null) 
+                tmpHandicapSituation.problemWithFontSize = problemWithFontSize_Literal.getBoolean();
+            if(problemWithForegroundAndBackgroundColor_Literal != null) 
+                tmpHandicapSituation.problemWithForegroundAndBackgroundColor = problemWithForegroundAndBackgroundColor_Literal.getBoolean();
+            if(problemWithHighContrast_Literal != null) 
+                tmpHandicapSituation.problemWithHighContrast = problemWithHighContrast_Literal.getBoolean();
+            if(problemWithMagnifierFullScreen_Literal != null) 
+                tmpHandicapSituation.problemWithMagnifierFullScreen = problemWithMagnifierFullScreen_Literal.getBoolean();
+        
+            if(existingHandicapSituation == null)
+                allInstances_TempHandicapSituation.add(tmpHandicapSituation);
+            else
+                allInstances_TempHandicapSituation.set(getTempHandicapSituationIndex(tmpInstance.getURI()), tmpHandicapSituation);
+            
+            //PrevaylerManager.getInstance().debug = PrevaylerManager.getInstance().debug + "\n[querySolution]" + querySolution.toString();
+        }   
 
-            //version 1_2
-
-            else if(tmpClassName.equals("AndroidPhoneInteractionSettings"))
-                return PlatformSettings_AndroidPhoneInteractionSettings_ID;
-            else if(tmpClassName.equals("AndroidPhoneSettings"))
-                return PlatformSettings_AndroidPhoneSettings_ID;
-            else if(tmpClassName.equals("DesktopSettings"))
-                return PlatformSettings_DesktopSettings_ID;
-            else if(tmpClassName.equals("DigitalTV"))
-                return PlatformSettings_DigitalTV_ID;
-            else if(tmpClassName.equals("IOSPhoneSettings"))
-                return PlatformSettings_IOSPhoneSettings_ID;
-            else if(tmpClassName.equals("SimplePhoneSettings"))
-                return PlatformSettings_SimplePhoneSettings_ID;
-            else if(tmpClassName.equals("WindowsPhoneSettings"))
-                return PlatformSettings_WindowsPhoneSettings_ID;
-
-            else if(tmpClassName.equals("EasyOneCommunicatorSettings"))
-                return ApplicationSettings_EasyOneCommunicatorSettings_ID;
-            else if(tmpClassName.equals("EKioskSettings"))
-                return ApplicationSettings_EKioskSettings_ID;
-            else if(tmpClassName.equals("Maavis"))
-                return ApplicationSettings_Maavis_ID;
-            else if(tmpClassName.equals("MSSurfaceSettings"))
-                return ApplicationSettings_MSSurfaceSettings_ID;
-            else if(tmpClassName.equals("ReadWriteGold_TextHelp"))
-                return ApplicationSettings_ReadWriteGold_TextHelp_ID;
-            else if(tmpClassName.equals("SAToGoSettings"))
-                return ApplicationSettings_SAToGoSettings_ID;
-            else if(tmpClassName.equals("SocialNetworkAppSettings"))
-                return ApplicationSettings_SocialNetworkAppSettings_ID;
-            else if(tmpClassName.equals("SpeechStream_TextHelp"))
-                return ApplicationSettings_SpeechStream_TextHelp_ID;
-            else if(tmpClassName.equals("WebAnywhereSettings"))
-                return ApplicationSettings_WebAnywhereSettings_ID;
-
-            else if(tmpClassName.equals("GNOMEDesktopAccessibilitySettings"))
-                return GNOMEDesktopAccessibilitySettings_ID;
-
-            else if(tmpClassName.equals("Firefox10_0_1Settings"))
-                return BrowserSettings_Firefox10_0_1Settings_ID;
-            else if(tmpClassName.equals("IE8Settings"))
-                return BrowserSettings_IE8Settings_ID;
-
-            else if(tmpClassName.equals("ISO24751ScreenMagnifierSettings"))
-                return ScreenMagnifierSettings_ISO24751ScreenMagnifierSettings_ID;
-            else if(tmpClassName.equals("LinuxBuiltInScreenMagnifierSettings"))
-                return ScreenMagnifierSettings_LinuxBuiltInScreenMagnifierSettings_ID;
-            else if(tmpClassName.equals("WindowsBuiltInScreenMagnifierSettings"))
-                return ScreenMagnifierSettings_WindowsBuiltInScreenMagnifierSettings_ID;
-            else if(tmpClassName.equals("ZoomTextSettings"))
-                return ScreenMagnifierSettings_ZoomTextSettings_ID;
-
-            else if(tmpClassName.equals("ISO24751ScreenReaderSettings"))
-                return ScreenReaderSettings_ISO24751ScreenReaderSettings_ID;
-            else if(tmpClassName.equals("JAWSSettings"))
-                return ScreenReaderSettings_JAWSSettings_ID;
-            else if(tmpClassName.equals("NVDASettings"))
-                return ScreenReaderSettings_NVDASettings_ID;
-            else if(tmpClassName.equals("OrcaSettings"))
-                return ScreenReaderSettings_OrcaSettings_ID;
-            else if(tmpClassName.equals("WinSevenBuiltInNarratorSettings"))
-                return ScreenReaderSettings_WinSevenBuiltInNarratorSettings_ID;
+        qe.close();
+        
+        //for(int i=0; i<allInstances_TempHandicapSituation.size(); i++)
+        //    PrevaylerManager.getInstance().debug = PrevaylerManager.getInstance().debug + "\n[TempHandicapSituation]" + allInstances_TempHandicapSituation.get(i).toString();
+    }         
+    
+    public TempHandicapSituation getTempHandicapSituation(String instanceName) 
+    {
+        for (int i = 0; i < allInstances_TempHandicapSituation.size(); i++) 
+        {
+            if (((TempHandicapSituation)allInstances_TempHandicapSituation.get(i)).instanceName.equals(instanceName)) 
+                return (TempHandicapSituation)allInstances_TempHandicapSituation.get(i);
+        }
+        return null;
+    }
+    
+    public int getTempHandicapSituationIndex(String instanceName) 
+    {
+        for (int i = 0; i < allInstances_TempHandicapSituation.size(); i++) 
+        {
+            if (((TempHandicapSituation)allInstances_TempHandicapSituation.get(i)).instanceName.equals(instanceName)) 
+                return i;
         }
         return -1;
     }
     
-    public String getClassNameByID(int tmpClassID)
+    public void sparql_get_TempPossibleSolutions()
     {
-        if(tmpClassID == TempUsers_ID)
-            return "TempUsers";
-        else if(tmpClassID == TempEnvironment_ID)
-            return "TempEnvironment";
-        else if(tmpClassID == TempHandicapSituations_ID)
-            return "TempHandicapSituations";
-        else if(tmpClassID == TempPossibleSolutions_ID)
-            return "TempPossibleSolutions";
-        else if(tmpClassID == TempSolutionsToBeLaunched_ID)
-            return "TempSolutionsToBeLaunched";
-        
-        
-        else if(tmpClassID == DTVDevices_ID)
-            return "DTVDevices";
-        else if(tmpClassID == GamingConsoleDevices_ID)
-            return "GamingConsoleDevices";
-        else if(tmpClassID == ATMDevices_ID)
-            return "ATMDevices";
-        else if(tmpClassID == InfokioskDevices_ID)
-            return "InfokioskDevices";
-        else if(tmpClassID == SmartHomeDevices_ID)
-            return "SmartHomeDevices";
-        else if(tmpClassID == MSSurfaceDevices_ID)
-            return "MSSurfaceDevices";
-        else if(tmpClassID == SimpleMobilePhoneDevices_ID)
-            return "SimpleMobilePhoneDevices";
-        else if(tmpClassID == SmartMobilePhoneDevices_ID)
-            return "SmartMobilePhoneDevices";
-        else if(tmpClassID == PDADevices_ID)
-            return "PDADevices";
-        else if(tmpClassID == AtDriving_ID)
-            return "AtDriving";
-        else if(tmpClassID == AtEntertainment_ID)
-            return "AtEntertainment";
-        else if(tmpClassID == AtHome_ID)
-            return "AtHome";
-        else if(tmpClassID == AtWork_ID)
-            return "AtWork";
-        else if(tmpClassID == HoursOfTheDay_ID)
-            return "HoursOfTheDay";
-        else if(tmpClassID == LinuxOSPlatforms_ID)
-            return "LinuxOSPlatforms";
-        else if(tmpClassID == SUNOSOSPlatforms_ID)
-            return "SUNOSOSPlatforms";
-        else if(tmpClassID == Windows7OSPlatforms_ID)
-            return "Windows7OSPlatforms";
-        else if(tmpClassID == WES2007_ID)
-            return "WES2007";
-        else if(tmpClassID == WES2009_ID)
-            return "WES2009";
-        else if(tmpClassID == WindowsVistaOSPlatform_ID)
-            return "WindowsVistaOSPlatform";
-        else if(tmpClassID == WindowsXPOSPlatform_ID)
-            return "WindowsXPOSPlatform";
-        else if(tmpClassID == BrowserWithJava_ID)
-            return "BrowserWithJava";
-        else if(tmpClassID == Services_ID)
-            return "Services";
-        else if(tmpClassID == AccessSettings_ID)
-            return "AccessSettings";
-        else if(tmpClassID == AudioNotificationsGeneralSettings_ID)
-            return "AudioNotificationsGeneralSettings";
-        else if(tmpClassID == AudioNotificationsLinkSettings_ID)
-            return "AudioNotificationsLinkSettings";
-        else if(tmpClassID == AudioVolumeSettings_ID)
-            return "AudioVolumeSettings";
-        else if(tmpClassID == SpeechRecognitionSettings_ID)
-            return "SpeechRecognitionSettings";
-        else if(tmpClassID == EchoOptionsSettings_ID)
-            return "EchoOptionsSettings";
-        else if(tmpClassID == TextToSpeechEngineSettings_ID)
-            return "TextToSpeechEngineSettings";
-        else if(tmpClassID == TextToSpeechLanguageSettings_ID)
-            return "TextToSpeechLanguageSettings";
-        else if(tmpClassID == PunctuationSettings_ID)
-            return "PunctuationSettings";
-        else if(tmpClassID == ReadingCapitalsSettings_ID)
-            return "ReadingCapitalsSettings";
-        else if(tmpClassID == SpeakingRateSettings_ID)
-            return "SpeakingRateSettings";
-        else if(tmpClassID == SpeekingPitchSettings_ID)
-            return "SpeekingPitchSettings";
-        else if(tmpClassID == VoiceSettings_ID)
-            return "VoiceSettings";
-        else if(tmpClassID == VoiceVolume_ID)
-            return "VoiceVolume";
-        else if(tmpClassID == EasyOneCommunicatorSeetings_ID)
-            return "EasyOneCommunicatorSeetings";
-        else if(tmpClassID == LanguageSettings_ID)
-            return "LanguageSettings";
-        else if(tmpClassID == MsSurfaceSettings_ID)
-            return "MsSurfaceSettings";
-        else if(tmpClassID == SAToGoSettings_ID)
-            return "SAToGoSettings";
-        else if(tmpClassID == SmartHouseSettings_ID)
-            return "SmartHouseSettings";
-        else if(tmpClassID == BrailleDisplaySettings_ID)
-            return "BrailleDisplaySettings";
-        else if(tmpClassID == GestureSettings_ID)
-            return "GestureSettings";
-        else if(tmpClassID == UsersAssistantsIDSettings_ID)
-            return "UsersAssistantsIDSettings";
-        else if(tmpClassID == UsersContactsSettings_ID)
-            return "UsersContactsSettings";
-        else if(tmpClassID == Gmail_ID)
-            return "Gmail";
-        else if(tmpClassID == UsersIDSettings_ID)
-            return "UsersIDSettings";
-        else if(tmpClassID == UsersLanguageSettings_ID)
-            return "UsersLanguageSettings";
-        else if(tmpClassID == UsersXMPPChatIDSettings_ID)
-            return "UsersXMPPChatIDSettings";
-        else if(tmpClassID == UsersXMPPPasswordSettings_ID)
-            return "UsersXMPPPasswordSettings";
-        else if(tmpClassID == ColorSettings_ID)
-            return "ColorSettings";
-        else if(tmpClassID == ButtonSettings_ID)
-            return "ButtonSettings";
-        else if(tmpClassID == InterfaceSettings_ID)
-            return "InterfaceSettings";
-        else if(tmpClassID == KeyboardLayoutSettings_ID)
-            return "KeyboardLayoutSettings";
-        else if(tmpClassID == MagnifierSettings_ID)
-            return "MagnifierSettings";
-        else if(tmpClassID == SubtitleSettings_ID)
-            return "SubtitleSettings";
-        else if(tmpClassID == TextSizeSettings_ID)
-            return "TextSizeSettings";
-        else if(tmpClassID == TextStyleSettings_ID)
-            return "TextStyleSettings";
-        else if(tmpClassID == VisualNotificationsSettings_ID)
-            return "VisualNotificationsSettings";
-        else if(tmpClassID == VisualResponseSettings_ID)
-            return "VisualResponseSettings";
-        else if(tmpClassID == WebAnywhereSettings_ID)
-            return "WebAnywhereSettings";
-        else if(tmpClassID == SystemsToTransformImagesIntoSoundOrVoice_ID)
-            return "SystemsToTransformImagesIntoSoundOrVoice";
-        else if(tmpClassID == SatelliteNavigationSystem_ID)
-            return "SatelliteNavigationSystem";
-        else if(tmpClassID == WordProcessingSoftware_ID)
-            return "WordProcessingSoftware";
-        else if(tmpClassID == EasyOneCommunicator_ID)
-            return "EasyOneCommunicator";
-        else if(tmpClassID == SocialNetworkApp_ID)
-            return "SocialNetworkApp";
-        else if(tmpClassID == SoftwareForSoundOrSpeechAmplification_ID)
-            return "SoftwareForSoundOrSpeechAmplification";
-        else if(tmpClassID == PaperDocumentsReadingSystemOCR_ID)
-            return "PaperDocumentsReadingSystemOCR";
-        else if(tmpClassID == SAToGo_ID)
-            return "SAToGo";
-        else if(tmpClassID == SpeechStreamTextHelp_ID)
-            return "SpeechStreamTextHelp";
-        else if(tmpClassID == WebAnywhere_ID)
-            return "WebAnywhere";
-        else if(tmpClassID == VideoMagnifier_ID)
-            return "VideoMagnifier";
-        else if(tmpClassID == DelayedCaptioningSystem_ID)
-            return "DelayedCaptioningSystem";
-        else if(tmpClassID == RealTimeCaptioningSystem_ID)
-            return "RealTimeCaptioningSystem";
-        else if(tmpClassID == SoftwareInterfaceForComputer_ID)
-            return "SoftwareInterfaceForComputer";
-        else if(tmpClassID == eKiosk_ID)
-            return "eKiosk";
-        else if(tmpClassID == AlternativeInputDeviceForComputer_ID)
-            return "AlternativeInputDeviceForComputer";
-        else if(tmpClassID == EyegazeSystem_ID)
-            return "EyegazeSystem";
-        else if(tmpClassID == MsSurface_ID)
-            return "MsSurface";
-        else if(tmpClassID == VoiceRecognitionSystem_ID)
-            return "VoiceRecognitionSystem";
-        else if(tmpClassID == PointingDevice_ID)
-            return "PointingDevice";
-        else if(tmpClassID == SwitchInterface_ID)
-            return "SwitchInterface";
-        else if(tmpClassID == MouseControlSoftware_ID)
-            return "MouseControlSoftware";
-        else if(tmpClassID == OnScreenKeyboard_ID)
-            return "OnScreenKeyboard";
-        else if(tmpClassID == SoftwareForAdjustingInoutDevicesResponse_ID)
-            return "SoftwareForAdjustingInoutDevicesResponse";
-        else if(tmpClassID == WordPredictionSoftware_ID)
-            return "WordPredictionSoftware";
-        else if(tmpClassID == SpeechSynthesis_ID)
-            return "SpeechSynthesis";
-        else if(tmpClassID == MagnifyingSoftware_ID)
-            return "MagnifyingSoftware";
-        else if(tmpClassID == ScreenReader_ID)
-            return "ScreenReaderSoftware";
-        else if(tmpClassID == SoftwareForAdjustingColorCombinationAndTextSize_ID)
-            return "SoftwareForAdjustingColorCombinationAndTextSize";
-        else if(tmpClassID == SoftwareToModifyThePointerAppearance_ID)
-            return "SoftwareToModifyThePointerAppearance";
-        else if(tmpClassID == SmartHouse_ID)
-            return "SmartHouse";
-        else if(tmpClassID == DeviceVendors_ID)
-            return "DeviceVendors";
-        else if(tmpClassID == PlatformVendors_ID)
-            return "PlatformVendors";
-        else if(tmpClassID == SolutionVendors_ID)
-            return "SolutionVendors";
-        
-        //version 1_2
-        
-        else if(tmpClassID == PlatformSettings_AndroidPhoneInteractionSettings_ID)
-            return "AndroidPhoneInteractionSettings";
-        else if(tmpClassID == PlatformSettings_AndroidPhoneSettings_ID)
-            return "AndroidPhoneSettings";
-        else if(tmpClassID == PlatformSettings_DesktopSettings_ID)
-            return "DesktopSettings";
-        else if(tmpClassID == PlatformSettings_DigitalTV_ID)
-            return "DigitalTV";
-        else if(tmpClassID == PlatformSettings_IOSPhoneSettings_ID)
-            return "IOSPhoneSettings";
-        else if(tmpClassID == PlatformSettings_SimplePhoneSettings_ID)
-            return "SimplePhoneSettings";
-        else if(tmpClassID == PlatformSettings_WindowsPhoneSettings_ID)
-            return "";
+        allInstances_TempPossibleSolution.clear();
+        // Create a new query
+        String queryString =   
+            "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>" +
+            "PREFIX cld: <" + InstantiationManager.NS + ">" +
+            "SELECT * " +
+            "WHERE {" +
+            "?instance rdf:type cld:TempPossibleSolutions ; cld:TempPossibleSolutions_comment ?comment ; cld:TempPossibleSolutions_text ?text  " +
+            "} \n ";
 
-        else if(tmpClassID == ApplicationSettings_EasyOneCommunicatorSettings_ID)
-            return "EasyOneCommunicatorSettings";
-        else if(tmpClassID == ApplicationSettings_EKioskSettings_ID)
-            return "EKioskSettings";
-        else if(tmpClassID == ApplicationSettings_Maavis_ID)
-            return "Maavis";
-        else if(tmpClassID == ApplicationSettings_MSSurfaceSettings_ID)
-            return "MSSurfaceSettings";
-        else if(tmpClassID == ApplicationSettings_ReadWriteGold_TextHelp_ID)
-            return "ReadWriteGold_TextHelp";
-        else if(tmpClassID == ApplicationSettings_SAToGoSettings_ID)
-            return "SAToGoSettings";
-        else if(tmpClassID == ApplicationSettings_SocialNetworkAppSettings_ID)
-            return "SocialNetworkAppSettings";
-        else if(tmpClassID == ApplicationSettings_SpeechStream_TextHelp_ID)
-            return "SpeechStream_TextHelp";
-        else if(tmpClassID == ApplicationSettings_WebAnywhereSettings_ID)
-            return "WebAnywhereSettings";
+        Query query = QueryFactory.create(queryString);
+        // Execute the query and obtain results
+        QueryExecution qe = QueryExecutionFactory.create(query, model);
+        com.hp.hpl.jena.query.ResultSet results =  qe.execSelect();
 
-        else if(tmpClassID == GNOMEDesktopAccessibilitySettings_ID)
-            return "GNOMEDesktopAccessibilitySettings";
-
-        else if(tmpClassID == BrowserSettings_Firefox10_0_1Settings_ID)
-            return "Firefox10_0_1Settings";
-        else if(tmpClassID == BrowserSettings_IE8Settings_ID)
-            return "IE8Settings";
-
-        else if(tmpClassID == ScreenMagnifierSettings_ISO24751ScreenMagnifierSettings_ID)
-            return "ISO24751ScreenMagnifierSettings";
-        else if(tmpClassID == ScreenMagnifierSettings_LinuxBuiltInScreenMagnifierSettings_ID)
-            return "LinuxBuiltInScreenMagnifierSettings";
-        else if(tmpClassID == ScreenMagnifierSettings_WindowsBuiltInScreenMagnifierSettings_ID)
-            return "WindowsBuiltInScreenMagnifierSettings";
-        else if(tmpClassID == ScreenMagnifierSettings_ZoomTextSettings_ID)
-            return "ZoomTextSettings";
-
-        else if(tmpClassID == ScreenReaderSettings_ISO24751ScreenReaderSettings_ID)
-            return "ISO24751ScreenReaderSettings";
-        else if(tmpClassID == ScreenReaderSettings_JAWSSettings_ID)
-            return "JAWSSettings";
-        else if(tmpClassID == ScreenReaderSettings_NVDASettings_ID)
-            return "NVDASettings";
-        else if(tmpClassID == ScreenReaderSettings_OrcaSettings_ID)
-            return "OrcaSettings";
-        else if(tmpClassID == ScreenReaderSettings_WinSevenBuiltInNarratorSettings_ID)
-            return "WinSevenBuiltInNarratorSettings";
-        
-        return "UNKNOWN CLASS ID!";
-    }
-    
-    public String fillSolutionsArrayList()
-    {
-        String res = "";
-        ExtendedIterator classes = model.listClasses();
-        
-        while(classes.hasNext())
+        while (results.hasNext()) 
         {
-            OntClass tmpClass = (OntClass)classes.next();
-            
-            int tmpClassID = -1;
-            if(tmpClass != null)
-                tmpClassID = getClassIDByName(tmpClass.getLocalName());
-            
-            //---------
-            //Solutions
-            //---------
-            if(tmpClassID == SystemsToTransformImagesIntoSoundOrVoice_ID
-                    || tmpClassID == SatelliteNavigationSystem_ID
-                    || tmpClassID == WordProcessingSoftware_ID
-                    || tmpClassID == EasyOneCommunicator_ID
-                    || tmpClassID == SocialNetworkApp_ID
-                    || tmpClassID == SoftwareForSoundOrSpeechAmplification_ID
-                    || tmpClassID == PaperDocumentsReadingSystemOCR_ID
-                    || tmpClassID == SAToGo_ID
-                    || tmpClassID == SpeechStreamTextHelp_ID
-                    || tmpClassID == WebAnywhere_ID
-                    || tmpClassID == VideoMagnifier_ID
-                    || tmpClassID == DelayedCaptioningSystem_ID
-                    || tmpClassID == RealTimeCaptioningSystem_ID
-                    || tmpClassID == SoftwareInterfaceForComputer_ID
-                    || tmpClassID == eKiosk_ID
-                    || tmpClassID == AlternativeInputDeviceForComputer_ID
-                    || tmpClassID == EyegazeSystem_ID
-                    || tmpClassID == MsSurface_ID
-                    || tmpClassID == VoiceRecognitionSystem_ID
-                    || tmpClassID == PointingDevice_ID
-                    || tmpClassID == SwitchInterface_ID
-                    || tmpClassID == MouseControlSoftware_ID
-                    || tmpClassID == OnScreenKeyboard_ID
-                    || tmpClassID == SoftwareForAdjustingInoutDevicesResponse_ID
-                    || tmpClassID == WordPredictionSoftware_ID
-                    || tmpClassID == SpeechSynthesis_ID
-                    || tmpClassID == MagnifyingSoftware_ID
-                    || tmpClassID == ScreenReader_ID
-                    || tmpClassID == SoftwareForAdjustingColorCombinationAndTextSize_ID
-                    || tmpClassID == SoftwareToModifyThePointerAppearance_ID
-                    || tmpClassID == SmartHouse_ID)
-            {
-                ExtendedIterator instances = tmpClass.listInstances();
-                
-                while(instances.hasNext())
-                {
-                    Individual tmpInstance = (Individual)instances.next();
-                
-                    Solution tmpSolution = new Solution();
+            QuerySolution querySolution = results.nextSolution();
+            Resource tmpInstance = querySolution.getResource("instance");
+            Literal commentLiteral = querySolution.getLiteral("comment");
+            Literal textLiteral = querySolution.getLiteral("text");
+        
+            TempPossibleSolution tmpPossibleSolution = new TempPossibleSolution();
 
-                    tmpSolution.classID = tmpClassID;
-                    tmpSolution.instanceName = tmpInstance.getURI();
-                    tmpSolution.id = tmpInstance.getPropertyValue(model.getProperty(InstantiationManager.NS, "id")).asLiteral().getValue().toString();
-                    tmpSolution.hasSolutionName = tmpInstance.getPropertyValue(model.getProperty(InstantiationManager.NS, "hasSolutionName")).asLiteral().getValue().toString();
-                    /*tmpSolution.hasSolutionDescription = tmpInstance.getPropertyValue(model.getProperty(InstantiationManager.NS, "hasSolutionDescription")).asLiteral().getValue().toString();
-                    String tmpFreeAllowedNrOfInvocations = tmpInstance.getPropertyValue(model.getProperty(InstantiationManager.NS, "freeAllowedNrOfInvocations")).asLiteral().getValue().toString();
-                    if(tmpFreeAllowedNrOfInvocations.length() > 0)
-                        tmpSolution.freeAllowedNrOfInvocations = Integer.parseInt(tmpFreeAllowedNrOfInvocations);
-                    String tmpHasCost = tmpInstance.getPropertyValue(model.getProperty(InstantiationManager.NS, "hasCost")).asLiteral().getValue().toString();
-                    if(tmpHasCost.length() > 0)
-                        tmpSolution.hasCost = Double.parseDouble(tmpHasCost);
-                    tmpSolution.preferredLang = tmpInstance.getPropertyValue(model.getProperty(InstantiationManager.NS, "preferredLang")).asLiteral().getValue().toString();
-                    tmpSolution.speechRate = tmpInstance.getPropertyValue(model.getProperty(InstantiationManager.NS, "speechRate")).asLiteral().getValue().toString();
-                    tmpSolution.hasSolutionSpecificSetting = tmpInstance.getPropertyValue(model.getProperty(InstantiationManager.NS, "hasSolutionSpecificSetting")).asLiteral().getValue().toString();
-                    tmpSolution.hasSolutionVendor = tmpInstance.getPropertyValue(model.getProperty(InstantiationManager.NS, "hasSolutionVendor")).asLiteral().getValue().toString();
-                    tmpSolution.runsOnDevice = tmpInstance.getPropertyValue(model.getProperty(InstantiationManager.NS, "runsOnDevice")).asLiteral().getValue().toString();
-                    tmpSolution.runsOnPlatform = tmpInstance.getPropertyValue(model.getProperty(InstantiationManager.NS, "runsOnPlatform")).asLiteral().getValue().toString();
-                    tmpSolution.hasCostCurrency = tmpInstance.getPropertyValue(model.getProperty(InstantiationManager.NS, "hasCostCurrency")).asLiteral().getValue().toString();
-                    tmpSolution.hasSolutionVersion = tmpInstance.getPropertyValue(model.getProperty(InstantiationManager.NS, "hasSolutionVersion")).asLiteral().getValue().toString();
-                    */
-                    allInstances_Solution.add(tmpSolution);
-                    
-                    res = res + "\n\n" + tmpSolution.toString();
-                }
-            }
-        }
-        return res;
+            tmpPossibleSolution.instanceName = tmpInstance.getURI();
+            if(commentLiteral == null) 
+                tmpPossibleSolution.comment = "";
+            else
+                tmpPossibleSolution.comment = commentLiteral.getString();
+            if(textLiteral == null) 
+                tmpPossibleSolution.text = "";
+            else
+                tmpPossibleSolution.text = textLiteral.getString();
+        
+            allInstances_TempPossibleSolution.add(tmpPossibleSolution);
+        }   
+
+        qe.close();
     }
     
-    public String getInstancesAfterRulesExecution()
+    public void sparql_get_TempSolutionsToBeLaunched()
     {
-        OntologyManager.getInstance().allInstances_TempHandicapSituation.clear();
-        OntologyManager.getInstance().allInstances_TempPossibleSolution.clear();
-        OntologyManager.getInstance().allInstances_TempSolutionsToBeLaunched.clear();
+        allInstances_TempSolutionsToBeLaunched.clear();
+        // Create a new query
+        String queryString =   
+            "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>" +
+            "PREFIX cld: <" + InstantiationManager.NS + ">" +
+            "SELECT * " +
+            "WHERE {" +
+            "?instance rdf:type cld:TempSolutionsToBeLaunched ; cld:TempSolutionsToBeLaunched_IDs ?IDs  " +
+            "} \n ";
+
+        Query query = QueryFactory.create(queryString);
+        // Execute the query and obtain results
+        QueryExecution qe = QueryExecutionFactory.create(query, model);
+        com.hp.hpl.jena.query.ResultSet results =  qe.execSelect();
+
+        TempSolutionsToBeLaunched tmpTempSolutionsToBeLaunched = new TempSolutionsToBeLaunched();
+        while (results.hasNext()) 
+        {
+            QuerySolution querySolution = results.nextSolution();
+            Resource tmpInstance = querySolution.getResource("instance");
+            Resource tmpIDs = querySolution.getResource("IDs");
+            tmpTempSolutionsToBeLaunched.IDs = tmpTempSolutionsToBeLaunched.IDs + getSolutionIDFromInstanceName(tmpIDs.getURI()) + " ";
+        }   
+        allInstances_TempSolutionsToBeLaunched.add(tmpTempSolutionsToBeLaunched);
+
+        qe.close();
+    }
+   
+    public void getInstancesAfterRulesExecution() 
+    {
+        //NEW WAY
+        /*sparql_get_TempHandicapSituations();
+        //sparql_get_TempPossibleSolutions();
+        sparql_get_TempSolutionsToBeLaunched();*/
         
-        String res = "";
+        //OLD WAY
+        allInstances_TempHandicapSituation.clear();
+        allInstances_TempPossibleSolution.clear();
+        allInstances_TempSolutionsToBeLaunched.clear();
+        
         ExtendedIterator classes = model.listClasses();
         
         while(classes.hasNext())
@@ -897,35 +700,35 @@ public class OntologyManager
                     {
                         TempHandicapSituation tmpTempHandicapSituation = new TempHandicapSituation();
 
-                        if(tmpInstance.getPropertyValue(model.getProperty(InstantiationManager.NS, "TempHandicapSituations_problemWithFontSize")) != null)
-                            tmpTempHandicapSituation.problemWithFontSize = Boolean.parseBoolean(tmpInstance.getPropertyValue(model.getProperty(InstantiationManager.NS, "TempHandicapSituations_problemWithFontSize")).asLiteral().getValue().toString());
-                        if(tmpInstance.getPropertyValue(model.getProperty(InstantiationManager.NS, "TempHandicapSituations_problemWithMagnification")) != null)
-                            tmpTempHandicapSituation.problemWithMagnification = Boolean.parseBoolean(tmpInstance.getPropertyValue(model.getProperty(InstantiationManager.NS, "TempHandicapSituations_problemWithMagnification")).asLiteral().getValue().toString());
-                        if(tmpInstance.getPropertyValue(model.getProperty(InstantiationManager.NS, "TempHandicapSituations_problemWithForegroundAndBackgroundColor")) != null)
-                            tmpTempHandicapSituation.problemWithForegroundAndBackgroundColor = Boolean.parseBoolean(tmpInstance.getPropertyValue(model.getProperty(InstantiationManager.NS, "TempHandicapSituations_problemWithForegroundAndBackgroundColor")).asLiteral().getValue().toString());
-                        if(tmpInstance.getPropertyValue(model.getProperty(InstantiationManager.NS, "TempHandicapSituations_problemWithScreenReaderAndGnome")) != null)
-                            tmpTempHandicapSituation.problemWithScreenReaderAndGnome = Boolean.parseBoolean(tmpInstance.getPropertyValue(model.getProperty(InstantiationManager.NS, "TempHandicapSituations_problemWithScreenReaderAndGnome")).asLiteral().getValue().toString());
-                        if(tmpInstance.getPropertyValue(model.getProperty(InstantiationManager.NS, "TempHandicapSituations_problemWithHighContrast")) != null)
-                            tmpTempHandicapSituation.problemWithHighContrast = Boolean.parseBoolean(tmpInstance.getPropertyValue(model.getProperty(InstantiationManager.NS, "TempHandicapSituations_problemWithHighContrast")).asLiteral().getValue().toString());
-                        if(tmpInstance.getPropertyValue(model.getProperty(InstantiationManager.NS, "TempHandicapSituations_problemWithMagnifierFullScreen")) != null)
-                            tmpTempHandicapSituation.problemWithMagnifierFullScreen = Boolean.parseBoolean(tmpInstance.getPropertyValue(model.getProperty(InstantiationManager.NS, "TempHandicapSituations_problemWithMagnifierFullScreen")).asLiteral().getValue().toString());
+                        if(tmpInstance.getPropertyValue(model.getProperty(InstantiationManager.NS, "TH_FontSize")) != null)
+                            tmpTempHandicapSituation.problemWithFontSize = Boolean.parseBoolean(tmpInstance.getPropertyValue(model.getProperty(InstantiationManager.NS, "TH_FontSize")).asLiteral().getValue().toString());
+                        if(tmpInstance.getPropertyValue(model.getProperty(InstantiationManager.NS, "TH_Magnification")) != null)
+                            tmpTempHandicapSituation.problemWithMagnification = Boolean.parseBoolean(tmpInstance.getPropertyValue(model.getProperty(InstantiationManager.NS, "TH_Magnification")).asLiteral().getValue().toString());
+                        if(tmpInstance.getPropertyValue(model.getProperty(InstantiationManager.NS, "TH_ForegroundAndBackgroundColor")) != null)
+                            tmpTempHandicapSituation.problemWithForegroundAndBackgroundColor = Boolean.parseBoolean(tmpInstance.getPropertyValue(model.getProperty(InstantiationManager.NS, "TH_ForegroundAndBackgroundColor")).asLiteral().getValue().toString());
+                        if(tmpInstance.getPropertyValue(model.getProperty(InstantiationManager.NS, "TH_ScreenReaderAndGnome")) != null)
+                            tmpTempHandicapSituation.problemWithScreenReaderAndGnome = Boolean.parseBoolean(tmpInstance.getPropertyValue(model.getProperty(InstantiationManager.NS, "TH_ScreenReaderAndGnome")).asLiteral().getValue().toString());
+                        if(tmpInstance.getPropertyValue(model.getProperty(InstantiationManager.NS, "TH_HighContrast")) != null)
+                            tmpTempHandicapSituation.problemWithHighContrast = Boolean.parseBoolean(tmpInstance.getPropertyValue(model.getProperty(InstantiationManager.NS, "TH_HighContrast")).asLiteral().getValue().toString());
+                        if(tmpInstance.getPropertyValue(model.getProperty(InstantiationManager.NS, "TH_MagnifierFullScreen")) != null)
+                            tmpTempHandicapSituation.problemWithMagnifierFullScreen = Boolean.parseBoolean(tmpInstance.getPropertyValue(model.getProperty(InstantiationManager.NS, "TH_MagnifierFullScreen")).asLiteral().getValue().toString());
 
                         allInstances_TempHandicapSituation.add(tmpTempHandicapSituation);
                     }
                     //---------------------
                     //TempPossibleSolutions
                     //---------------------
-                    else if(tmpClassID == TempPossibleSolutions_ID)
-                    {
-                        TempPossibleSolution tmpTempPossibleSolution = new TempPossibleSolution();
-
-                        if(tmpInstance.getPropertyValue(model.getProperty(InstantiationManager.NS, "TempPossibleSolutions_text")) != null)
-                            tmpTempPossibleSolution.text = tmpInstance.getPropertyValue(model.getProperty(InstantiationManager.NS, "TempPossibleSolutions_text")).asLiteral().getValue().toString();
-                        if(tmpInstance.getPropertyValue(model.getProperty(InstantiationManager.NS, "TempPossibleSolutions_comment")) != null)
-                            tmpTempPossibleSolution.comment = tmpInstance.getPropertyValue(model.getProperty(InstantiationManager.NS, "TempPossibleSolutions_comment")).asLiteral().getValue().toString();
-
-                        allInstances_TempPossibleSolution.add(tmpTempPossibleSolution);
-                    }
+                    //else if(tmpClassID == TempPossibleSolutions_ID)
+                    //{
+                    //    TempPossibleSolution tmpTempPossibleSolution = new TempPossibleSolution();
+                    //
+                    //    if(tmpInstance.getPropertyValue(model.getProperty(InstantiationManager.NS, "TempPossibleSolutions_text")) != null)
+                    //        tmpTempPossibleSolution.text = tmpInstance.getPropertyValue(model.getProperty(InstantiationManager.NS, "TempPossibleSolutions_text")).asLiteral().getValue().toString();
+                    //    if(tmpInstance.getPropertyValue(model.getProperty(InstantiationManager.NS, "TempPossibleSolutions_comment")) != null)
+                    //        tmpTempPossibleSolution.comment = tmpInstance.getPropertyValue(model.getProperty(InstantiationManager.NS, "TempPossibleSolutions_comment")).asLiteral().getValue().toString();
+                    //
+                    //    allInstances_TempPossibleSolution.add(tmpTempPossibleSolution);
+                    //}
                     //---------------------
                     //TempSolutionsToBeLaunched
                     //---------------------
@@ -945,7 +748,6 @@ public class OntologyManager
                 }
             }
         }
-        return res;
     }
     
     public String getInstanceNameBySolutionID(String tmpID)

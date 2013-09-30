@@ -19,7 +19,7 @@ public class Environment
     
     public String toString()
     {
-        String result = OntologyManager.getInstance().getClassNameByID(classID);
+        String result = "Environment";//OntologyManager.getInstance().classNamesAndIDs.get(classID);
         
         result = result + "\n\thasEnvironmentName: " + hasEnvironmentName;
         

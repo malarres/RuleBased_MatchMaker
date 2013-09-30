@@ -6,11 +6,13 @@ package com.iti.cloud4all.ontology;
  */
 public class TempPossibleSolution 
 {
+    String instanceName;
     String text;
     String comment;
     
     public TempPossibleSolution()
     {
+        instanceName = "";
         text = "";
         comment = "";
     }
@@ -20,6 +22,7 @@ public class TempPossibleSolution
     {
         String result = "\tPossible Solution:";
         
+        result = result + "\n\t\t" + instanceName;
         result = result + "\n\t\t" + text;
         result = result + "\n\t\tComment:" + comment;
        

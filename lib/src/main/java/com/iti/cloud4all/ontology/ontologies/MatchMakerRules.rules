@@ -12,11 +12,16 @@ equal(?tmpEnvironmentPlatformName, 'win32')
 equal(?tmpEnvironmentPlatformVersion, '6.1')
 ->
 (ns:ProblemWithHighContrastInWindows7 rdf:type ns:TempHandicapSituations)
-(ns:ProblemWithHighContrastInWindows7 ns:TempHandicapSituations_problemWithHighContrast "true"^^http://www.w3.org/2001/XMLSchema#boolean)
+(ns:ProblemWithHighContrastInWindows7 ns:TH_HighContrast "true"^^http://www.w3.org/2001/XMLSchema#boolean)
+(ns:ProblemWithHighContrastInWindows7 ns:TH_Magnification "false"^^http://www.w3.org/2001/XMLSchema#boolean)
+(ns:ProblemWithHighContrastInWindows7 ns:TH_ScreenReaderAndGnome "false"^^http://www.w3.org/2001/XMLSchema#boolean)
+(ns:ProblemWithHighContrastInWindows7 ns:TH_FontSize "false"^^http://www.w3.org/2001/XMLSchema#boolean)
+(ns:ProblemWithHighContrastInWindows7 ns:TH_ForegroundAndBackgroundColor "false"^^http://www.w3.org/2001/XMLSchema#boolean)
+(ns:ProblemWithHighContrastInWindows7 ns:TH_MagnifierFullScreen "false"^^http://www.w3.org/2001/XMLSchema#boolean)
 ]
 
 [ProblemWithHighContrastInWin7_ProposeSolution:
-(ns:ProblemWithHighContrastInWindows7 ns:TempHandicapSituations_problemWithHighContrast "true"^^http://www.w3.org/2001/XMLSchema#boolean)
+(ns:ProblemWithHighContrastInWindows7 ns:TH_HighContrast "true"^^http://www.w3.org/2001/XMLSchema#boolean)
 ->
 (ns:ProblemWithHighContrastInWindows7_PossibleSolution rdf:type ns:TempPossibleSolutions)
 (ns:ProblemWithHighContrastInWindows7_PossibleSolution ns:TempPossibleSolutions_text "Solve problem with high contrast -> use default theme and magnifier on with inverse colours"^^http://www.w3.org/2001/XMLSchema#string)
@@ -40,11 +45,16 @@ equal(?tmpEnvironmentPlatformName, 'win32')
 equal(?tmpEnvironmentPlatformVersion, '6.1')
 ->
 (ns:ProblemWithMagnifierFullScreenInWindows7 rdf:type ns:TempHandicapSituations)
-(ns:ProblemWithMagnifierFullScreenInWindows7 ns:TempHandicapSituations_problemWithMagnifierFullScreen "true"^^http://www.w3.org/2001/XMLSchema#boolean)
+(ns:ProblemWithMagnifierFullScreenInWindows7 ns:TH_MagnifierFullScreen "true"^^http://www.w3.org/2001/XMLSchema#boolean)
+(ns:ProblemWithMagnifierFullScreenInWindows7 ns:TH_HighContrast "false"^^http://www.w3.org/2001/XMLSchema#boolean)
+(ns:ProblemWithMagnifierFullScreenInWindows7 ns:TH_Magnification "false"^^http://www.w3.org/2001/XMLSchema#boolean)
+(ns:ProblemWithMagnifierFullScreenInWindows7 ns:TH_ScreenReaderAndGnome "false"^^http://www.w3.org/2001/XMLSchema#boolean)
+(ns:ProblemWithMagnifierFullScreenInWindows7 ns:TH_FontSize "false"^^http://www.w3.org/2001/XMLSchema#boolean)
+(ns:ProblemWithMagnifierFullScreenInWindows7 ns:TH_ForegroundAndBackgroundColor "false"^^http://www.w3.org/2001/XMLSchema#boolean)
 ]
 
 [ProblemWithMagnifierFullScreenInWin7_ProposeSolution:
-(ns:ProblemWithMagnifierFullScreenInWindows7 ns:TempHandicapSituations_problemWithMagnifierFullScreen "true"^^http://www.w3.org/2001/XMLSchema#boolean)
+(ns:ProblemWithMagnifierFullScreenInWindows7 ns:TH_MagnifierFullScreen "true"^^http://www.w3.org/2001/XMLSchema#boolean)
 ->
 (ns:ProblemWithMagnifierFullScreenInWindows7_PossibleSolution rdf:type ns:TempPossibleSolutions)
 (ns:ProblemWithMagnifierFullScreenInWindows7_PossibleSolution ns:TempPossibleSolutions_text "Solve problem with magnifier running on full screen -> Apply AERO design"^^http://www.w3.org/2001/XMLSchema#string)
@@ -59,9 +69,8 @@ equal(?tmpEnvironmentPlatformVersion, '6.1')
 (?tmpUser ns:TempUsers_hasSpecificPreferencesForSolutions ?tmpSolutionsIDTwoForWhichUserHasSpecificPreferences)
 notEqual(?tmpSolutionsIDOneForWhichUserHasSpecificPreferences, ?tmpSolutionsIDTwoForWhichUserHasSpecificPreferences)
 
-(?tmpSolutionsIDOneForWhichUserHasSpecificPreferences rdf:type ?tmpSolutionOneClass)
-(?tmpSolutionsIDTwoForWhichUserHasSpecificPreferences rdf:type ?tmpSolutionTwoClass)
-equal(?tmpSolutionOneClass, ?tmpSolutionTwoClass)
+//(?tmpSolutionsIDOneForWhichUserHasSpecificPreferences rdf:type ?tmpSolutionClass)
+//(?tmpSolutionsIDTwoForWhichUserHasSpecificPreferences rdf:type ?tmpSolutionClass)
 
 (?tmpEnvironment rdf:type ns:TempEnvironment)
 (?tmpEnvironment ns:TempEnvironment_installedSolutions ?tmpSolutionsIDOneForWhichUserHasSpecificPreferences)

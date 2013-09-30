@@ -33,7 +33,7 @@ public class Platform
 
     public String toString()
     {
-        String result = OntologyManager.getInstance().getClassNameByID(classID);
+        String result = "Platform:";//OntologyManager.getInstance().classNamesAndIDs.get(classID);
 
         result = result + "\n\thasPlatformName: " + hasPlatformName;
         result = result + "\n\thasPlatformDescription: " + hasPlatformDescription;

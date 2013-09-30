@@ -40,8 +40,8 @@ public class UserProfile extends RequestMessage {
         if(specificPreferencesForSolutions_IDs == null)
             specificPreferencesForSolutions_IDs = "null";
         
-        InstantiationManager.getInstance(); //initialization
-        OntologyManager.getInstance();      //initialization        
+        //InstantiationManager.getInstance();                     //initialization
+        OntologyManager.getInstance();//.fillSolutionsArrayList(); //initialization
         
         InstantiationManager.getInstance().USER_fontSize = Integer.parseInt(fontSize);
         InstantiationManager.getInstance().USER_magnification = Double.parseDouble(magnification);

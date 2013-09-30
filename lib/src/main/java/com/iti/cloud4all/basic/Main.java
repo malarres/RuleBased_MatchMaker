@@ -2,6 +2,7 @@ package com.iti.cloud4all.basic;
 
 import java.io.IOException;
 import com.iti.cloud4all.nodejs.NodejsManager;
+import com.iti.cloud4all.ontology.OntologyManager;
 
 //import javax.ws.rs.core.MediaType;
 // import com.sun.jersey.api.client.Client;

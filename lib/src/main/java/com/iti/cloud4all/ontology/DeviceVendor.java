@@ -21,7 +21,7 @@ public class DeviceVendor
 
     public String toString()
     {
-        String result = OntologyManager.getInstance().getClassNameByID(classID);
+        String result = "DeviceVebndor";//OntologyManager.getInstance().classNamesAndIDs.get(classID);
 
         result = result + "\n\thasDeviceVendorName: " + hasDeviceVendorName;
         result = result + "\n\tisDeviceVendorOf: " + isDeviceVendorOf;

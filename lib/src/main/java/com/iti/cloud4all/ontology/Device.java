@@ -27,7 +27,7 @@ public class Device
 
     public String toString()
     {
-        String result = OntologyManager.getInstance().getClassNameByID(classID);
+        String result = "Device:";//OntologyManager.getInstance().classNamesAndIDs.get(classID);
 
         result = result + "\n\thasDeviceName: " + hasDeviceName;
         result = result + "\n\thasDeviceDescription: " + hasDeviceDescription;

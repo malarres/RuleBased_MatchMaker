@@ -6,6 +6,7 @@ package com.iti.cloud4all.ontology;
  */
 public class TempHandicapSituation 
 {
+    public String instanceName;
     public Boolean problemWithFontSize;
     public Boolean problemWithMagnification;
     public Boolean problemWithForegroundAndBackgroundColor;
@@ -15,6 +16,7 @@ public class TempHandicapSituation
     
     public TempHandicapSituation()
     {
+        instanceName = "";
         problemWithFontSize = false;
         problemWithMagnification = false;
         problemWithForegroundAndBackgroundColor = false;
@@ -26,7 +28,7 @@ public class TempHandicapSituation
     @Override
     public String toString()
     {
-        String result = "\tHandicap Situation:";
+        String result = "\tHandicap Situation: " + instanceName;
         
         if(problemWithFontSize)
             result = result + "\n\t\tPROBLEM WITH FONT SIZE!";

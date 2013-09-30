@@ -243,7 +243,7 @@ public class JAWSSettings
     @Override
     public String toString()
     {
-        String result = OntologyManager.getInstance().getClassNameByID(OntologyManager.ScreenReaderSettings_JAWSSettings_ID);
+        String result = "JAWSSettings";//OntologyManager.getInstance().classNamesAndIDs.get(OntologyManager.ScreenReaderSettings_JAWSSettings_ID);
 
         result = result + "\n\tSharedFiles: " + SharedFiles;
         result = result + "\n\tUserFiles: " + UserFiles;

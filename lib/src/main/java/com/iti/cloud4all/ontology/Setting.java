@@ -45,7 +45,7 @@ public class Setting
 
     public String toString()
     {
-        String result = OntologyManager.getInstance().getClassNameByID(classID);
+        String result = "Setting:";//OntologyManager.getInstance().classNamesAndIDs.get(classID);
 
         result = result + "\n\thasSettingName: " + hasSettingName;
         result = result + "\n\thasSettingDescription: " + hasSettingDescription;

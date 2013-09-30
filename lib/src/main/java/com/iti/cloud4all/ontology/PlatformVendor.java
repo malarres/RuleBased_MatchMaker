@@ -21,7 +21,7 @@ public class PlatformVendor
 
     public String toString()
     {
-        String result = OntologyManager.getInstance().getClassNameByID(classID);
+        String result = "PlatformVendor:";//OntologyManager.getInstance().classNamesAndIDs.get(classID);
 
         result = result + "\n\thasPlatformVendorName: " + hasPlatformVendorName;
         result = result + "\n\tisPlatformVendorOf: " + isPlatformVendorOf;
