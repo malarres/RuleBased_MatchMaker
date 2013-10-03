@@ -1,7 +1,7 @@
 {
 	"preferences": 
 	{
-		"http://registry.gpii.org/common/fontSize": [{ "value": 26 }],
+		"http://registry.gpii.org/common/fontSize": [{ "value": 22 }],
 		"http://registry.gpii.org/common/foregroundColor": [{"value": "white"}],
 		"http://registry.gpii.org/common/backgroundColor": [{"value": "black"}],
 		"http://registry.gpii.org/common/fontFaceFontName": [{"value": ["Comic Sans"]}],
